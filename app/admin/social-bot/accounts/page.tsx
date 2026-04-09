@@ -1,0 +1,47 @@
+"use client";
+
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { getSupabaseBrowser } from "@/lib/supabase-browser";
+import { useEffect } from "react";
+
+export default function AccountsPage() {
+  const router = useRouter();
+
+  useEffect(() => {
+    const supabase = getSupabaseBrowser();
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      if (!session?.user?.email) {
+        router.push("/admin/login");
+      }
+    });
+
+    return () => subscription.unsubscribe();
+  }, [router]);
+
+  return (
+    <main className="min-h-screen bg-gray-50">
+      <nav className="bg-white shadow">
+        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+          <Link href="/admin/social-bot" className="flex items-center gap-2">
+            <span className="text-xl font-bold text-indigo-600">←</span>
+            <h1 className="text-2xl font-bold text-gray-900">Social Accounts</h1>
+          </Link>
+        </div>
+      </nav>
+
+      <div className="max-w-6xl mx-auto px-6 py-12">
+        <div className="flex justify-between items-center mb-8">
+          <h2 className="text-xl font-bold text-gray-900">Connected Accounts</h2>
+          <Link href="/admin/social-bot/accounts/add">
+            <button className="btn-primary">Add Account</button>
+          </Link>
+        </div>
+
+        <div className="bg-white rounded-2xl shadow p-8">
+          <p className="text-gray-600 text-center">No accounts connected yet.</p>
+        </div>
+      </div>
+    </main>
+  );
+}
