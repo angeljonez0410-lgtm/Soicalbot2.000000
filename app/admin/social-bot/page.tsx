@@ -9,6 +9,7 @@ import SettingsPanel from "../../../components/SettingsPanel";
 import CalendarGenerator from "../../../components/CalendarGenerator";
 import PublishingPanel from "../../../components/PublishingPanel";
 import AnalyticsCards from "../../../components/AnalyticsCards";
+import AIChatPanel from "../../../components/AIChatPanel";
 
 type Analytics = {
   totalPosts: number;
@@ -124,6 +125,8 @@ export default function SocialBotPage() {
         <PostsTable posts={posts} />
         <LogsPanel logs={logs} />
       </div>
+
+      <AIChatPanel />
     </main>
   );
 }
