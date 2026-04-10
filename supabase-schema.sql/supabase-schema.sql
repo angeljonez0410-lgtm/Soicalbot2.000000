@@ -87,4 +87,16 @@ create index if not exists idx_social_logs_created_at on social_logs(created_at 
 create index if not exists idx_social_analytics_platform_date on social_analytics(platform, metric_date desc);
 create index if not exists idx_social_posts_priority on social_posts(priority asc, scheduled_time asc);
 create index if not exists idx_social_posts_approval on social_posts(approval_status, approval_required);
-create index if not exists idx_admin_team_ema
+create index if not exists idx_admin_team_ema;
+
+create table if not exists social_activity_log (
+  id uuid primary key default gen_random_uuid(),
+  platform text not null,
+  action text not null,
+  username text,
+  detail text,
+  created_at timestamptz not null default now()
+);
+
+create index if not exists idx_activity_log_created_at on social_activity_log(created_at desc);
+create index if not exists idx_activity_log_platform on social_activity_log(platform);

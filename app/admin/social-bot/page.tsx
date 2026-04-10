@@ -10,6 +10,7 @@ import CalendarGenerator from "../../../components/CalendarGenerator";
 import PublishingPanel from "../../../components/PublishingPanel";
 import AnalyticsCards from "../../../components/AnalyticsCards";
 import AIChatPanel from "../../../components/AIChatPanel";
+import ActivityDashboard from "../../../components/ActivityDashboard";
 
 type Analytics = {
   totalPosts: number;
@@ -59,6 +60,17 @@ export default function SocialBotPage() {
       }
 
       setEmail(data.user.email || "");
+
+      // Log dashboard login
+      if (!sessionStorage.getItem("login_logged")) {
+        fetch("/api/activity", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ platform: "system", action: "login", username: data.user.email, detail: "Logged into dashboard" }),
+        });
+        sessionStorage.setItem("login_logged", "true");
+      }
+
       await loadData();
     }
 
@@ -89,6 +101,13 @@ export default function SocialBotPage() {
   }
 
   async function logout() {
+    // Log dashboard logout
+    fetch("/api/activity", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ platform: "system", action: "logout", username: email, detail: "Logged out of dashboard" }),
+    });
+    sessionStorage.removeItem("login_logged");
     localStorage.removeItem("sb_user");
     localStorage.removeItem("sb_access_token");
     localStorage.removeItem("sb_refresh_token");
@@ -118,6 +137,7 @@ export default function SocialBotPage() {
         </div>
 
         <AnalyticsCards analytics={analytics} />
+        <ActivityDashboard />
         <SettingsPanel onSaved={loadData} />
         <CalendarGenerator onGenerated={loadData} />
         <PublishingPanel onRun={loadData} />

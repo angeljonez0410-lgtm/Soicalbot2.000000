@@ -65,6 +65,12 @@ export default function AccountsPage() {
       const updated = accounts.filter((a) => a.platform !== platformId);
       setAccounts(updated);
       localStorage.setItem("connected_accounts", JSON.stringify(updated));
+      // Log disconnect
+      fetch("/api/activity", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ platform: platformId, action: "disconnect", username: existing.username, detail: `Disconnected ${platformId} account` }),
+      });
       return;
     }
 
@@ -80,6 +86,12 @@ export default function AccountsPage() {
     const updated = [...accounts, newAccount];
     setAccounts(updated);
     localStorage.setItem("connected_accounts", JSON.stringify(updated));
+    // Log connect
+    fetch("/api/activity", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ platform: platformId, action: "connect", username, detail: `Connected ${platformId} account @${username}` }),
+    });
   }
 
   return (
