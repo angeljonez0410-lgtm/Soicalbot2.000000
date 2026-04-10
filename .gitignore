@@ -42,4 +42,5 @@ yarn-error.log*
 # conflicting v3 configs (using v4 via postcss.config.mjs)
 postcss.config.js
 tailwind.config.js
+jsconfig.json
 next-env.d.ts
