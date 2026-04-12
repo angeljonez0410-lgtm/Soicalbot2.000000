@@ -127,7 +127,7 @@ export default function DashboardPage() {
           {quickActions.map((action) => {
             const Icon = action.icon;
             return (
-              <Link key={action.page} href={action.page}>
+              <Link key={action.page} href={action.page} className="block">
                 <div className="card p-5 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-slate-200">
                   <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${action.color} flex items-center justify-center mb-4 shadow-sm`}>
                     <Icon className="w-5 h-5 text-white" />
@@ -156,7 +156,7 @@ export default function DashboardPage() {
           {premiumActions.map((action) => {
             const Icon = action.icon;
             return (
-              <Link key={action.page} href={action.page}>
+              <Link key={action.page} href={action.page} className="block">
                 <div className="card p-5 transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-amber-100 bg-gradient-to-br from-amber-50/30 to-orange-50/20 hover:shadow-md">
                   <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-4 shadow-sm">
                     <Icon className="w-5 h-5 text-white" />

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   LayoutDashboard, Search, FileText, Mail, Send, User,
   X, Sparkles, ChevronRight, Mic, DollarSign, Map, Lightbulb,
@@ -14,7 +14,7 @@ const NAV_ITEMS = [
   { name: "Dashboard", path: "/app", icon: LayoutDashboard },
   { name: "Auto Apply", path: "/app/auto-apply", icon: Zap },
   { name: "Job Analyzer", path: "/app/job-analyzer", icon: Search },
-  { name: "Resume Builder", path: "/app/resume-builder", icon: FileText },
+  { name: "Social Bot", path: "/app/social-bot", icon: Bot },
   { name: "Resume Library", path: "/app/resume-library", icon: FileText },
   { name: "Cover Letter", path: "/app/cover-letter", icon: Mail },
   { name: "Follow-Up Email", path: "/app/follow-up-email", icon: Send },
@@ -37,10 +37,16 @@ const ADMIN_NAV = [
   { name: "Admin AI Assistant", path: "/app/admin-ai", icon: Bot },
 ];
 
+// Admin emails (should match server-side)
+const ADMIN_EMAILS = [
+  "angeljonez0410@gmail.com"
+  // Add more admin emails here if needed
+];
+
 const BOTTOM_TABS = [
   { name: "Dashboard", path: "/app", icon: LayoutDashboard },
   { name: "Analyzer", path: "/app/job-analyzer", icon: Search },
-  { name: "Resumes", path: "/app/resume-library", icon: FileText },
+  { name: "Social Bot", path: "/app/social-bot", icon: Bot },
   { name: "Profile", path: "/app/profile", icon: User },
 ];
 
@@ -48,6 +54,19 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+
+  useEffect(() => {
+    // Check if user is admin (client-side)
+    const userStr = typeof window !== "undefined" ? localStorage.getItem("sb_user") : null;
+    let email = null;
+    if (userStr) {
+      try {
+        email = JSON.parse(userStr).email;
+      } catch {}
+    }
+    setIsAdmin(email && ADMIN_EMAILS.includes(email.toLowerCase()));
+  }, []);
 
   const isActive = (path: string) => {
     if (path === "/app") return pathname === "/app";
@@ -56,6 +75,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   const handleSignOut = () => {
     localStorage.removeItem("sb_access_token");
+    localStorage.removeItem("sb_refresh_token");
+    localStorage.removeItem("sb_user");
     router.push("/login");
   };
 
@@ -167,33 +188,35 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           })}
         </div>
 
-        {/* Admin Nav */}
-        <div className="px-4 pb-2">
-          <p className="text-[10px] uppercase tracking-[0.15em] font-semibold text-white/60 px-4 mb-2 flex items-center gap-1.5">
-            <Shield className="w-3 h-3" style={{ color: "#f4c542" }} /> Admin
-          </p>
-          {ADMIN_NAV.map((item) => {
-            const active = isActive(item.path);
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.path}
-                href={item.path}
-                onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 mb-0.5 ${
-                  active ? "shadow-lg" : "hover:bg-[#2a3f5f]"
-                }`}
-                style={active ? { backgroundColor: "#f4c542", color: "#1e2d42" } : { color: "#f4c542" }}
-              >
-                <Icon
-                  className="w-[18px] h-[18px]"
-                  style={active ? { color: "#1e2d42" } : { color: "#f4c542" }}
-                />
-                <span>{item.name}</span>
-              </Link>
-            );
-          })}
-        </div>
+        {/* Admin Nav (only for admins) */}
+        {isAdmin && (
+          <div className="px-4 pb-2">
+            <p className="text-[10px] uppercase tracking-[0.15em] font-semibold text-white/60 px-4 mb-2 flex items-center gap-1.5">
+              <Shield className="w-3 h-3" style={{ color: "#f4c542" }} /> Admin
+            </p>
+            {ADMIN_NAV.map((item) => {
+              const active = isActive(item.path);
+              const Icon = item.icon;
+              return (
+                <Link
+                  key={item.path}
+                  href={item.path}
+                  onClick={() => setSidebarOpen(false)}
+                  className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 mb-0.5 ${
+                    active ? "shadow-lg" : "hover:bg-[#2a3f5f]"
+                  }`}
+                  style={active ? { backgroundColor: "#f4c542", color: "#1e2d42" } : { color: "#f4c542" }}
+                >
+                  <Icon
+                    className="w-[18px] h-[18px]"
+                    style={active ? { color: "#1e2d42" } : { color: "#f4c542" }}
+                  />
+                  <span>{item.name}</span>
+                </Link>
+              );
+            })}
+          </div>
+        )}
 
         {/* Footer */}
         <div className="p-4 border-t border-[#2a3f5f] mt-2 space-y-3">
