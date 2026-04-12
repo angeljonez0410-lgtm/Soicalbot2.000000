@@ -123,12 +123,12 @@ export default function LoginPage() {
     <div className="min-h-screen bg-gradient-to-br from-[#1e2d42] via-[#1e2d42] to-[#2a3f5f] flex flex-col">
       {/* Nav */}
       <nav className="flex items-center justify-between px-6 py-4 max-w-7xl mx-auto w-full">
-        <Link href="/" className="flex items-center gap-2">
+        <a href="https://resumevaultgodai.vercel.app/" className="flex items-center gap-2">
           <div className="w-8 h-8 rounded-lg bg-[#f4c542] flex items-center justify-center">
             <Sparkles className="w-5 h-5 text-[#1e2d42]" />
           </div>
           <span className="text-white font-bold text-lg">ResumeVault<span className="text-[#f4c542]">GodAI</span></span>
-        </Link>
+        </a>
       </nav>
 
       {/* Main */}
@@ -261,7 +261,7 @@ export default function LoginPage() {
                   </button>
                   <p className="text-center text-xs text-slate-400 mt-2">
                     Don't have an account?{' '}
-                    <button type="button" className="underline text-[#f4c542]" onClick={switchToSignup}>Sign up</button>
+                    <a href="https://resumevaultgodai.vercel.app/login" className="underline text-[#f4c542]">Sign up</a>
                   </p>
                 </form>
               )}
@@ -314,7 +314,7 @@ export default function LoginPage() {
                   </button>
                   <p className="text-center text-xs text-slate-400 mt-2">
                     Already have an account?{' '}
-                    <button type="button" className="underline text-[#f4c542]" onClick={switchToLogin}>Log in</button>
+                    <a href="https://resumevaultgodai.vercel.app/login" className="underline text-[#f4c542]">Log in</a>
                   </p>
                 </form>
               )}
