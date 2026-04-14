@@ -1,161 +1,61 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { authFetch } from "@/lib/auth-fetch";
-import {
-  ArrowRight,
-  Bot,
-  Briefcase,
-  CalendarPlus,
-  Crown,
-  DollarSign,
-  Lightbulb,
-  Map,
-  MessageSquareText,
-  Mic,
-  PenLine,
-  Star,
-  TrendingUp,
-  Zap,
-} from "lucide-react";
+import { FolderOpen, Play, Plus, TrendingUp, Users, Video, Wand2, Zap } from "lucide-react";
 
-const quickActions = [
-  {
-    title: "Schedule Post",
-    desc: "Plan the next post and keep your queue moving.",
-    icon: CalendarPlus,
-    page: "/app/social-bot/posts",
-    tone: "bg-[#e9f4ee] text-[#176b5b]",
-  },
-  {
-    title: "Analytics",
-    desc: "Read what is working across your social channels.",
-    icon: TrendingUp,
-    page: "/app/analytics",
-    tone: "bg-[#eaf0ff] text-[#3157a8]",
-  },
-  {
-    title: "Connect Accounts",
-    desc: "Link profiles so publishing can run from one place.",
-    icon: Bot,
-    page: "/app/social-bot/accounts",
-    tone: "bg-[#fff3cf] text-[#946812]",
-  },
-  {
-    title: "AI Post Builder",
-    desc: "Turn an idea into a caption, hook, and posting plan.",
-    icon: PenLine,
-    page: "/app/social-bot",
-    tone: "bg-[#f2ecff] text-[#6a4aa0]",
-  },
+const stats = [
+  { title: "Characters", value: 0, subtitle: "Master characters", icon: Users, glow: "bg-violet-500" },
+  { title: "Videos", value: 0, subtitle: "Generated videos", icon: Video, glow: "bg-fuchsia-500" },
+  { title: "Credits Used", value: 0, subtitle: "This month", icon: Zap, glow: "bg-cyan-500" },
+  { title: "Success Rate", value: "-", subtitle: "Generation success", icon: TrendingUp, glow: "bg-emerald-500" },
 ];
 
-const premiumActions = [
-  { title: "Mock Interview", desc: "Practice with generated questions.", icon: Mic, page: "/app/interview-coach" },
-  { title: "Salary Negotiation", desc: "Get scripts for the hard parts.", icon: DollarSign, page: "/app/salary-negotiation" },
-  { title: "Career Roadmap", desc: "Build a clear next-step plan.", icon: Map, page: "/app/career-roadmap" },
-  { title: "Portfolio Ideas", desc: "Shape projects recruiters remember.", icon: Lightbulb, page: "/app/portfolio-ideas" },
-];
-
-const statusColors: Record<string, string> = {
-  analyzing: "bg-[#eaf0ff] text-[#3157a8]",
-  ready: "bg-[#e9f4ee] text-[#176b5b]",
-  applied: "bg-[#f2ecff] text-[#6a4aa0]",
-  interview: "bg-[#fff3cf] text-[#946812]",
-  offer: "bg-[#e8f6dc] text-[#4f7d24]",
-  rejected: "bg-[#ffe8e5] text-[#b34333]",
-};
-
-const quotes = [
-  "Your social presence is the key. Let AI boost it to perfection.",
-  "Every post is a step closer. Keep going.",
-  "AI cannot stop a God-Mode social strategy.",
-  "The best time to post was yesterday. The next best is now.",
-  "Success is built one great post at a time.",
+const actions = [
+  {
+    label: "New Character",
+    description: "Create a master character",
+    icon: Users,
+    path: "/app/profile",
+    gradient: "from-violet-500 to-purple-600",
+  },
+  {
+    label: "Create Video",
+    description: "Generate a new video",
+    icon: Video,
+    path: "/app/social-bot",
+    gradient: "from-fuchsia-500 to-pink-600",
+  },
+  {
+    label: "Quick Generate",
+    description: "Use a scene template",
+    icon: Wand2,
+    path: "/app/social-bot",
+    gradient: "from-cyan-500 to-blue-600",
+  },
 ];
 
 export default function DashboardPage() {
-  const [applications, setApplications] = useState<Record<string, string | number>[]>([]);
-  const [quote, setQuote] = useState<string | null>(null);
-
-  useEffect(() => {
-    setQuote(quotes[Math.floor(Math.random() * quotes.length)]);
-  }, []);
-
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await authFetch("/api/applications");
-        if (res.ok && !cancelled) setApplications(await res.json());
-      } catch {
-        // Dashboard should still render when auth data is unavailable.
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, []);
-
-  const totalApps = applications.length;
-  const interviewCount = applications.filter((a) => a.status === "interview").length;
-  const appliedCount = applications.filter((a) => ["applied", "interview", "offer"].includes(a.status as string)).length;
-
-  const stats = [
-    { label: "Total Applications", value: totalApps, icon: Briefcase, tone: "bg-[#e9f4ee] text-[#176b5b]" },
-    { label: "Active Applications", value: appliedCount, icon: TrendingUp, tone: "bg-[#eaf0ff] text-[#3157a8]" },
-    { label: "Interviews", value: interviewCount, icon: Star, tone: "bg-[#fff3cf] text-[#946812]" },
-  ];
-
   return (
-    <div className="space-y-8">
-      <section className="overflow-hidden rounded-lg border border-[#dce3d7] bg-[#fbfcf7]">
-        <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
-          <div className="min-w-0">
-            <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.08em] text-[#176b5b]">
-              Beat the ATS in 60 seconds
-            </p>
-            <h1 className="max-w-4xl text-balance text-3xl font-black leading-[1.05] text-[#17201a] sm:text-5xl">
-              Run your job search and social engine from one clean command center.
-            </h1>
-            <p className="mt-4 max-w-2xl text-sm leading-6 text-[#647067] sm:text-base">
-              Build resumes, track applications, prepare interviews, and create social content without jumping between tools.
-            </p>
-          </div>
-
-          <div className="rounded-lg border border-[#dce3d7] bg-white p-4 shadow-sm">
-            <div className="flex items-start gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#fff3cf] text-[#946812]">
-                <Crown className="h-5 w-5" />
-              </div>
-              <div className="min-w-0">
-                <p className="font-extrabold text-[#17201a]">Unlock premium tools</p>
-                <p className="mt-1 text-sm leading-5 text-[#647067]">Interview practice, salary scripts, roadmaps, and portfolio ideas.</p>
-              </div>
-            </div>
-            <Link
-              href="/app/pricing"
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#176b5b] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#0f4d44]"
-            >
-              Upgrade Now <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-        </div>
+    <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 lg:px-10 lg:py-10">
+      <section className="mb-10">
+        <h1 className="text-3xl font-bold tracking-tight text-white">Studio</h1>
+        <p className="mt-1 text-sm text-slate-400">Create stunning AI influencer videos</p>
       </section>
 
-      <section className="grid gap-4 sm:grid-cols-3">
+      <section className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <div key={stat.label} className="card p-5">
-              <div className="flex items-center gap-4">
-                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-lg ${stat.tone}`}>
-                  <Icon className="h-5 w-5" />
-                </div>
+            <div key={stat.title} className="relative overflow-hidden rounded-2xl border border-white/5 bg-slate-900/50 p-6 backdrop-blur-sm">
+              <div className={`absolute right-0 top-0 h-32 w-32 translate-x-8 -translate-y-8 rounded-full opacity-10 blur-2xl ${stat.glow}`} />
+              <div className="relative flex items-start justify-between gap-4">
                 <div className="min-w-0">
-                  <p className="text-3xl font-black leading-none text-[#17201a]">{stat.value}</p>
-                  <p className="mt-1 truncate text-xs font-bold uppercase tracking-[0.04em] text-[#647067]">{stat.label}</p>
+                  <p className="text-sm font-medium text-slate-400">{stat.title}</p>
+                  <p className="mt-1 text-3xl font-bold tracking-tight text-white">{stat.value}</p>
+                  <p className="mt-1 text-xs text-slate-500">{stat.subtitle}</p>
+                </div>
+                <div className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-xl ${stat.glow}/20`}>
+                  <Icon className="h-5 w-5 text-white/80" />
                 </div>
               </div>
             </div>
@@ -163,103 +63,45 @@ export default function DashboardPage() {
         })}
       </section>
 
-      {quote ? (
-        <section className="rounded-lg border border-[#dce3d7] bg-[#fff3cf] px-5 py-4">
-          <p className="text-sm font-semibold leading-6 text-[#6f4f11]">&ldquo;{quote}&rdquo;</p>
-        </section>
-      ) : null}
-
-      <section className="space-y-4">
-        <div className="flex flex-wrap items-end justify-between gap-3">
-          <div>
-            <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#176b5b]">Start Here</p>
-            <h2 className="mt-1 text-2xl font-black text-[#17201a]">Quick Actions</h2>
-          </div>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {quickActions.map((action) => {
+      <section className="mb-10">
+        <h2 className="mb-4 text-lg font-semibold text-white">Quick Actions</h2>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+          {actions.map((action) => {
             const Icon = action.icon;
             return (
-              <Link key={action.page} href={action.page} className="group block">
-                <div className="card flex h-full flex-col p-5 transition hover:-translate-y-0.5 hover:shadow-md">
-                  <div className={`mb-5 flex h-11 w-11 items-center justify-center rounded-lg ${action.tone}`}>
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-base font-extrabold text-[#17201a]">{action.title}</h3>
-                  <p className="mt-2 flex-1 text-sm leading-6 text-[#647067]">{action.desc}</p>
-                  <ArrowRight className="mt-5 h-4 w-4 text-[#176b5b] transition group-hover:translate-x-1" />
+              <Link
+                key={action.label}
+                href={action.path}
+                className="group relative block overflow-hidden rounded-2xl border border-white/5 bg-slate-900/50 p-5 transition-all duration-300 hover:border-white/10"
+              >
+                <div className={`absolute inset-0 bg-gradient-to-br ${action.gradient} opacity-0 transition-opacity duration-500 group-hover:opacity-5`} />
+                <div className={`mb-3 flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br ${action.gradient}`}>
+                  <Icon className="h-5 w-5 text-white" />
                 </div>
+                <p className="text-sm font-semibold text-white">{action.label}</p>
+                <p className="mt-0.5 text-xs text-slate-500">{action.description}</p>
+                <Plus className="absolute right-4 top-4 h-4 w-4 text-slate-600 transition-colors group-hover:text-slate-400" />
               </Link>
             );
           })}
         </div>
       </section>
 
-      <section className="space-y-4">
-        <div className="flex flex-wrap items-center justify-between gap-3">
-          <div>
-            <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#946812]">Premium</p>
-            <h2 className="mt-1 flex items-center gap-2 text-2xl font-black text-[#17201a]">
-              <Zap className="h-5 w-5 text-[#946812]" /> Career Boosters
-            </h2>
-          </div>
-          <Link href="/app/pricing" className="inline-flex items-center gap-1 text-sm font-bold text-[#176b5b]">
-            Unlock all <ArrowRight className="h-4 w-4" />
+      <section>
+        <h2 className="mb-4 text-lg font-semibold text-white">Recent Projects</h2>
+        <div className="rounded-2xl border border-white/5 bg-slate-900/50 p-8 text-center">
+          <Play className="mx-auto mb-3 h-10 w-10 text-slate-600" />
+          <p className="text-sm text-slate-400">No projects yet</p>
+          <p className="mt-1 text-xs text-slate-500">Create your first video to get started</p>
+          <Link
+            href="/app/social-bot"
+            className="mt-5 inline-flex items-center gap-2 rounded-xl border border-violet-500/30 bg-violet-500/10 px-4 py-2 text-sm font-semibold text-violet-300 transition hover:bg-violet-500/15"
+          >
+            <FolderOpen className="h-4 w-4" />
+            Start a project
           </Link>
         </div>
-        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-          {premiumActions.map((action) => {
-            const Icon = action.icon;
-            return (
-              <Link key={action.page} href={action.page} className="group block">
-                <div className="card h-full border-[#ead9a6] bg-[#fffdf5] p-5 transition hover:-translate-y-0.5 hover:shadow-md">
-                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg bg-[#fff3cf] text-[#946812]">
-                    <Icon className="h-5 w-5" />
-                  </div>
-                  <h3 className="text-base font-extrabold text-[#17201a]">{action.title}</h3>
-                  <p className="mt-2 text-sm leading-6 text-[#647067]">{action.desc}</p>
-                  <ArrowRight className="mt-5 h-4 w-4 text-[#946812] transition group-hover:translate-x-1" />
-                </div>
-              </Link>
-            );
-          })}
-        </div>
       </section>
-
-      {applications.length > 0 ? (
-        <section className="space-y-4 pb-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <h2 className="text-2xl font-black text-[#17201a]">Recent Applications</h2>
-            <Link href="/app/application-tracker" className="inline-flex items-center gap-1 text-sm font-bold text-[#176b5b]">
-              View all <ArrowRight className="h-4 w-4" />
-            </Link>
-          </div>
-          <div className="card overflow-x-auto">
-            <table className="w-full min-w-[560px] text-sm">
-              <thead>
-                <tr className="border-b border-[#dce3d7] bg-[#f8faf5]">
-                  <th className="px-4 py-3 text-left font-bold text-[#647067]">Position</th>
-                  <th className="px-4 py-3 text-left font-bold text-[#647067]">Company</th>
-                  <th className="px-4 py-3 text-left font-bold text-[#647067]">Status</th>
-                </tr>
-              </thead>
-              <tbody>
-                {applications.slice(0, 5).map((app, i) => (
-                  <tr key={i} className="border-b border-[#edf1e9] last:border-0">
-                    <td className="px-4 py-3 font-bold text-[#17201a]">{app.job_title as string}</td>
-                    <td className="px-4 py-3 text-[#647067]">{app.company_name as string}</td>
-                    <td className="px-4 py-3">
-                      <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-bold ${statusColors[app.status as string] || "bg-gray-100 text-gray-600"}`}>
-                        {(app.status as string) || "pending"}
-                      </span>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </section>
-      ) : null}
     </div>
   );
 }

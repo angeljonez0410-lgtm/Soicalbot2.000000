@@ -2,124 +2,44 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
-  ArrowLeft,
   Bot,
-  Briefcase,
+  ChevronLeft,
   ChevronRight,
-  CreditCard,
-  DollarSign,
-  FileText,
+  FolderOpen,
   LayoutDashboard,
-  Lightbulb,
   LogOut,
-  Mail,
-  Map,
   Menu,
-  MessageSquare,
-  Mic,
-  Search,
-  Send,
-  Shield,
+  Settings,
+  Share2,
   Sparkles,
-  TrendingUp,
-  User,
   Users,
+  Video,
+  Wand2,
   X,
   Zap,
 } from "lucide-react";
 
-const NAV_ITEMS = [
-  { name: "Dashboard", path: "/app", icon: LayoutDashboard },
-  { name: "Auto Apply", path: "/app/auto-apply", icon: Zap },
-  { name: "Job Analyzer", path: "/app/job-analyzer", icon: Search },
-  { name: "Social Bot", path: "/app/social-bot", icon: Bot },
-  { name: "Resume Library", path: "/app/resume-library", icon: FileText },
-  { name: "Cover Letter", path: "/app/cover-letter", icon: Mail },
-  { name: "Follow-Up Email", path: "/app/follow-up-email", icon: Send },
-  { name: "My Profile", path: "/app/profile", icon: User },
-  { name: "Application Tracker", path: "/app/application-tracker", icon: Briefcase },
-  { name: "Analytics", path: "/app/analytics", icon: TrendingUp },
-  { name: "Pricing", path: "/app/pricing", icon: CreditCard },
-  { name: "Reviews", path: "/app/reviews", icon: MessageSquare },
+const navItems = [
+  { path: "/app", label: "Dashboard", icon: LayoutDashboard },
+  { path: "/app/profile", label: "Characters", icon: Users },
+  { path: "/app/social-bot", label: "Create Video", icon: Video },
+  { path: "/app/social-bot", label: "Quick Generate", icon: Wand2 },
+  { path: "/app/social-bot/posts", label: "Social Media", icon: Share2 },
+  { path: "/app/application-tracker", label: "Projects", icon: FolderOpen },
+  { path: "/AIAssistant", label: "ARIA AI", icon: Bot },
+  { path: "/app/social-bot/settings", label: "Settings", icon: Settings },
 ];
-
-const PREMIUM_NAV = [
-  { name: "Interview Coach", path: "/app/interview-coach", icon: Mic },
-  { name: "Salary Negotiation", path: "/app/salary-negotiation", icon: DollarSign },
-  { name: "Career Roadmap", path: "/app/career-roadmap", icon: Map },
-  { name: "Portfolio Ideas", path: "/app/portfolio-ideas", icon: Lightbulb },
-];
-
-const ADMIN_NAV = [
-  { name: "Admin Users", path: "/app/admin-users", icon: Users },
-  { name: "Admin AI Assistant", path: "/app/admin-ai", icon: Bot },
-];
-
-const ADMIN_EMAILS = ["angeljonez0410@gmail.com"];
-
-const BOTTOM_TABS = [
-  { name: "Dashboard", path: "/app", icon: LayoutDashboard },
-  { name: "Analyzer", path: "/app/job-analyzer", icon: Search },
-  { name: "Social Bot", path: "/app/social-bot", icon: Bot },
-  { name: "Profile", path: "/app/profile", icon: User },
-];
-
-function NavLink({
-  item,
-  active,
-  onNavigate,
-  premium = false,
-}: {
-  item: { name: string; path: string; icon: typeof LayoutDashboard };
-  active: boolean;
-  onNavigate: () => void;
-  premium?: boolean;
-}) {
-  const Icon = item.icon;
-
-  return (
-    <Link
-      href={item.path}
-      onClick={onNavigate}
-      className={`group flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition ${
-        active ? "bg-[#f0b83a] text-[#173d37] shadow-lg" : "text-emerald-50/85 hover:bg-white/10"
-      }`}
-    >
-      <Icon
-        className="h-[18px] w-[18px] shrink-0"
-        style={!active && premium ? { color: "#f0b83a" } : undefined}
-      />
-      <span className="min-w-0 flex-1 truncate">{item.name}</span>
-      {active ? <ChevronRight className="h-4 w-4 shrink-0 opacity-60" /> : null}
-      {!active && premium ? <Zap className="h-3 w-3 shrink-0 text-[#f0b83a]/80" /> : null}
-    </Link>
-  );
-}
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [collapsed, setCollapsed] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
-  useEffect(() => {
-    const userStr = typeof window !== "undefined" ? localStorage.getItem("sb_user") : null;
-    if (!userStr) return;
-
-    try {
-      const email = JSON.parse(userStr).email;
-      setIsAdmin(Boolean(email && ADMIN_EMAILS.includes(email.toLowerCase())));
-    } catch {
-      setIsAdmin(false);
-    }
-  }, []);
-
-  const isActive = (path: string) => {
-    if (path === "/app") return pathname === "/app";
-    return pathname.startsWith(path);
-  };
+  const sidebarWidth = collapsed ? "lg:w-[72px]" : "lg:w-64";
+  const isActive = (path: string) => (path === "/app" ? pathname === "/app" : pathname.startsWith(path));
 
   const handleSignOut = () => {
     localStorage.removeItem("sb_access_token");
@@ -128,133 +48,106 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     router.push("/login");
   };
 
-  const closeSidebar = () => setSidebarOpen(false);
-
   return (
-    <div className="min-h-screen bg-[#f6f8f4] text-[#17201a] lg:flex">
-      {sidebarOpen ? (
+    <div className="min-h-screen bg-slate-950 text-white">
+      {mobileOpen ? (
         <button
           aria-label="Close navigation"
-          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm lg:hidden"
-          onClick={closeSidebar}
+          className="fixed inset-0 z-40 bg-black/60 backdrop-blur-sm lg:hidden"
+          onClick={() => setMobileOpen(false)}
         />
       ) : null}
 
       <aside
-        className={`fixed inset-y-0 left-0 z-50 flex w-[19rem] max-w-[86vw] flex-col border-r border-white/10 bg-[#173d37] transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen ${
-          sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        className={`fixed left-0 top-0 z-50 flex h-screen w-64 flex-col border-r border-white/5 bg-slate-950 transition-all duration-300 ${sidebarWidth} ${
+          mobileOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
         }`}
       >
-        <div className="border-b border-white/10 p-5">
-          <div className="flex items-center justify-between gap-4">
-            <Link href="/app" className="group flex min-w-0 items-center gap-3">
-              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#f0b83a] shadow-lg transition group-hover:scale-105">
-                <Sparkles className="h-5 w-5 text-[#173d37]" />
-              </div>
-              <div className="min-w-0">
-                <h1 className="truncate text-lg font-extrabold leading-tight text-white">Social Bot</h1>
-                <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-emerald-50/75">
-                  AI Social Automation
-                </p>
-              </div>
-            </Link>
-            <button className="rounded-lg p-2 text-white lg:hidden" onClick={closeSidebar}>
-              <X className="h-5 w-5" />
-            </button>
-          </div>
-          <p className="mt-4 border-t border-white/10 pt-4 text-xs leading-relaxed text-emerald-50/75">
-            AI-powered scheduling, captions, and social performance in one workspace.
-          </p>
+        <div className="flex h-16 items-center border-b border-white/5 px-5">
+          <Link href="/app" className="flex min-w-0 items-center gap-3">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500">
+              <Sparkles className="h-4 w-4 text-white" />
+            </div>
+            {!collapsed ? (
+              <span className="truncate text-lg font-semibold tracking-tight text-white">InfluencerAI</span>
+            ) : null}
+          </Link>
+          <button className="ml-auto rounded-lg p-1 text-slate-400 lg:hidden" onClick={() => setMobileOpen(false)}>
+            <X className="h-5 w-5" />
+          </button>
         </div>
 
-        <nav className="flex-1 space-y-1 overflow-y-auto p-3 sidebar-scroll">
-          {NAV_ITEMS.map((item) => (
-            <NavLink key={item.path} item={item} active={isActive(item.path)} onNavigate={closeSidebar} />
-          ))}
+        <nav className="flex-1 space-y-1 overflow-y-auto px-3 py-4 sidebar-scroll">
+          {navItems.map((item) => {
+            const active = isActive(item.path);
+            const Icon = item.icon;
+            return (
+              <Link
+                key={`${item.label}-${item.path}`}
+                href={item.path}
+                onClick={() => setMobileOpen(false)}
+                title={collapsed ? item.label : undefined}
+                className={`group relative flex min-h-11 items-center gap-3 rounded-xl px-3 py-2.5 transition-all duration-200 ${
+                  active ? "bg-violet-500/15 text-violet-400" : "text-slate-400 hover:bg-white/5 hover:text-white"
+                }`}
+              >
+                {active ? <span className="absolute left-0 top-1/2 h-5 w-1 -translate-y-1/2 rounded-r-full bg-violet-500" /> : null}
+                <Icon className={`h-5 w-5 shrink-0 ${active ? "text-violet-400" : ""}`} />
+                {!collapsed ? <span className="min-w-0 truncate text-sm font-medium">{item.label}</span> : null}
+              </Link>
+            );
+          })}
         </nav>
 
-        <div className="space-y-1 px-3 pb-3">
-          <p className="px-3 text-[10px] font-bold uppercase tracking-[0.08em] text-emerald-50/60">Premium</p>
-          {PREMIUM_NAV.map((item) => (
-            <NavLink
-              key={item.path}
-              item={item}
-              active={isActive(item.path)}
-              onNavigate={closeSidebar}
-              premium
-            />
-          ))}
+        <div className="px-3 pb-4">
+          <div className={`rounded-xl border border-violet-500/20 bg-gradient-to-br from-violet-500/10 to-fuchsia-500/10 ${collapsed ? "p-2" : "p-3"}`}>
+            <div className="flex items-center gap-2">
+              <Zap className="h-4 w-4 shrink-0 text-violet-400" />
+              {!collapsed ? (
+                <div className="min-w-0 flex-1">
+                  <p className="text-xs text-slate-400">Credits</p>
+                  <p className="truncate text-sm font-semibold text-white">250 remaining</p>
+                </div>
+              ) : null}
+            </div>
+          </div>
         </div>
 
-        {isAdmin ? (
-          <div className="space-y-1 px-3 pb-3">
-            <p className="flex items-center gap-1.5 px-3 text-[10px] font-bold uppercase tracking-[0.08em] text-emerald-50/60">
-              <Shield className="h-3 w-3 text-[#f0b83a]" /> Admin
-            </p>
-            {ADMIN_NAV.map((item) => (
-              <NavLink key={item.path} item={item} active={isActive(item.path)} onNavigate={closeSidebar} premium />
-            ))}
-          </div>
-        ) : null}
-
-        <div className="mt-auto space-y-3 border-t border-white/10 p-3">
-          <div className="rounded-lg border border-[#f0b83a]/30 bg-[#f0b83a]/15 p-4">
-            <p className="mb-1 text-xs font-bold text-[#f0b83a]">AI-Powered</p>
-            <p className="text-[11px] leading-relaxed text-white/70">
-              Manage, schedule, and analyze your social media with AI.
-            </p>
-          </div>
+        <div className="border-t border-white/5 p-3">
           <button
             onClick={handleSignOut}
-            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-white/65 transition hover:bg-white/10 hover:text-white"
+            className="flex min-h-10 w-full items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium text-slate-400 transition hover:bg-white/5 hover:text-white"
+            title={collapsed ? "Sign Out" : undefined}
           >
-            <LogOut className="h-4 w-4" />
-            Sign Out
+            <LogOut className="h-5 w-5 shrink-0" />
+            {!collapsed ? <span>Sign Out</span> : null}
           </button>
         </div>
+
+        <button
+          onClick={() => setCollapsed((value) => !value)}
+          className="absolute -right-3 top-20 hidden h-6 w-6 items-center justify-center rounded-full border border-white/10 bg-slate-800 text-slate-400 transition hover:text-white lg:flex"
+          aria-label={collapsed ? "Expand navigation" : "Collapse navigation"}
+        >
+          {collapsed ? <ChevronRight className="h-3 w-3" /> : <ChevronLeft className="h-3 w-3" />}
+        </button>
       </aside>
 
-      <div className="flex min-w-0 flex-1 flex-col pt-14 lg:pt-0">
-        <header className="fixed left-0 right-0 top-0 z-40 flex items-center gap-3 bg-[#173d37] px-4 py-3 lg:hidden">
-          <button className="rounded-lg p-1 text-white" onClick={() => setSidebarOpen(true)}>
-            <Menu className="h-5 w-5" />
-          </button>
-          {pathname !== "/app" ? (
-            <button className="rounded-lg p-1 text-white" onClick={() => router.back()}>
-              <ArrowLeft className="h-5 w-5" />
-            </button>
-          ) : null}
-          <Link href="/app" className="ml-auto flex min-w-0 items-center gap-2">
-            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#f0b83a]">
-              <Sparkles className="h-3.5 w-3.5 text-[#173d37]" />
-            </div>
-            <span className="truncate text-sm font-bold text-white">Social Bot</span>
-          </Link>
-        </header>
+      <header className="fixed left-0 right-0 top-0 z-30 flex h-14 items-center border-b border-white/5 bg-slate-950/95 px-4 backdrop-blur lg:hidden">
+        <button className="rounded-lg p-2 text-slate-300" onClick={() => setMobileOpen(true)} aria-label="Open navigation">
+          <Menu className="h-5 w-5" />
+        </button>
+        <Link href="/app" className="ml-auto flex items-center gap-2">
+          <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500">
+            <Sparkles className="h-3.5 w-3.5" />
+          </div>
+          <span className="text-sm font-semibold">InfluencerAI</span>
+        </Link>
+      </header>
 
-        <main className="flex-1 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
-          <div className="mx-auto w-full max-w-7xl">{children}</div>
-        </main>
-      </div>
-
-      <nav className="fixed bottom-0 left-0 right-0 z-40 flex justify-around border-t border-white/10 bg-[#173d37] lg:hidden">
-        {BOTTOM_TABS.map((item) => {
-          const active = isActive(item.path);
-          const Icon = item.icon;
-          return (
-            <Link
-              key={item.path}
-              href={item.path}
-              className={`flex min-w-0 flex-1 flex-col items-center justify-center px-1 py-3 text-xs font-semibold transition ${
-                active ? "text-[#f0b83a]" : "text-emerald-50/60 hover:text-emerald-50"
-              }`}
-            >
-              <Icon className="mb-1 h-5 w-5" />
-              <span className="w-full truncate text-center">{item.name}</span>
-            </Link>
-          );
-        })}
-      </nav>
+      <main className={`min-h-screen pt-14 transition-all duration-300 lg:pt-0 ${collapsed ? "lg:pl-[72px]" : "lg:pl-64"}`}>
+        {children}
+      </main>
     </div>
   );
 }

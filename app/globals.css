@@ -3,8 +3,8 @@
 @tailwind utilities;
 
 :root {
-  --background: #f6f8f4;
-  --foreground: #17201a;
+  --background: #020617;
+  --foreground: #f8fafc;
   --ink: #17201a;
   --muted: #647067;
   --panel: #ffffff;
@@ -39,8 +39,7 @@ button {
 }
 
 .card {
-  @apply rounded-lg border bg-white shadow-sm;
-  border-color: var(--line);
+  @apply rounded-2xl border border-white/5 bg-slate-900/50 shadow-sm;
 }
 
 .btn {
