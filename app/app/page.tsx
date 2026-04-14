@@ -1,40 +1,76 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { authFetch } from "@/lib/auth-fetch";
 import {
-  Search, FileText, Mail, Send, Briefcase, TrendingUp,
-  ArrowRight, Star, Zap, Mic, DollarSign, Map, Lightbulb, Crown
+  ArrowRight,
+  Bot,
+  Briefcase,
+  CalendarPlus,
+  Crown,
+  DollarSign,
+  Lightbulb,
+  Map,
+  MessageSquareText,
+  Mic,
+  PenLine,
+  Star,
+  TrendingUp,
+  Zap,
 } from "lucide-react";
 
 const quickActions = [
-  { title: "Schedule Post", desc: "Plan and schedule your next social post", icon: FileText, page: "/app/social-bot/posts", color: "from-blue-500 to-blue-600" },
-  { title: "Analytics", desc: "Track your social growth and engagement", icon: TrendingUp, page: "/app/analytics", color: "from-green-500 to-green-600" },
-  { title: "Connect Accounts", desc: "Link your social media profiles", icon: Star, page: "/app/social-bot/accounts", color: "from-purple-500 to-purple-600" },
-  { title: "AI Post Builder", desc: "Generate a viral post with AI", icon: Zap, page: "/app/social-bot", color: "from-amber-500 to-orange-600" },
+  {
+    title: "Schedule Post",
+    desc: "Plan the next post and keep your queue moving.",
+    icon: CalendarPlus,
+    page: "/app/social-bot/posts",
+    tone: "bg-[#e9f4ee] text-[#176b5b]",
+  },
+  {
+    title: "Analytics",
+    desc: "Read what is working across your social channels.",
+    icon: TrendingUp,
+    page: "/app/analytics",
+    tone: "bg-[#eaf0ff] text-[#3157a8]",
+  },
+  {
+    title: "Connect Accounts",
+    desc: "Link profiles so publishing can run from one place.",
+    icon: Bot,
+    page: "/app/social-bot/accounts",
+    tone: "bg-[#fff3cf] text-[#946812]",
+  },
+  {
+    title: "AI Post Builder",
+    desc: "Turn an idea into a caption, hook, and posting plan.",
+    icon: PenLine,
+    page: "/app/social-bot",
+    tone: "bg-[#f2ecff] text-[#6a4aa0]",
+  },
 ];
 
 const premiumActions = [
-  { title: "Mock Interview", desc: "Practice with AI-generated questions", icon: Mic, page: "/app/interview-coach" },
-  { title: "Salary Negotiation", desc: "Ready-to-use negotiation scripts", icon: DollarSign, page: "/app/salary-negotiation" },
-  { title: "Career Roadmap", desc: "Step-by-step plan to your goals", icon: Map, page: "/app/career-roadmap" },
-  { title: "Portfolio Ideas", desc: "Impress recruiters with standout projects", icon: Lightbulb, page: "/app/portfolio-ideas" },
+  { title: "Mock Interview", desc: "Practice with generated questions.", icon: Mic, page: "/app/interview-coach" },
+  { title: "Salary Negotiation", desc: "Get scripts for the hard parts.", icon: DollarSign, page: "/app/salary-negotiation" },
+  { title: "Career Roadmap", desc: "Build a clear next-step plan.", icon: Map, page: "/app/career-roadmap" },
+  { title: "Portfolio Ideas", desc: "Shape projects recruiters remember.", icon: Lightbulb, page: "/app/portfolio-ideas" },
 ];
 
 const statusColors: Record<string, string> = {
-  analyzing: "bg-blue-50 text-blue-700",
-  ready: "bg-emerald-50 text-emerald-700",
-  applied: "bg-purple-50 text-purple-700",
-  interview: "bg-amber-50 text-amber-700",
-  offer: "bg-green-50 text-green-700",
-  rejected: "bg-red-50 text-red-700",
+  analyzing: "bg-[#eaf0ff] text-[#3157a8]",
+  ready: "bg-[#e9f4ee] text-[#176b5b]",
+  applied: "bg-[#f2ecff] text-[#6a4aa0]",
+  interview: "bg-[#fff3cf] text-[#946812]",
+  offer: "bg-[#e8f6dc] text-[#4f7d24]",
+  rejected: "bg-[#ffe8e5] text-[#b34333]",
 };
 
 const quotes = [
-  "Your social presence is the key — let AI boost it to perfection.",
+  "Your social presence is the key. Let AI boost it to perfection.",
   "Every post is a step closer. Keep going.",
-  "AI can't stop a God-Mode social strategy.",
+  "AI cannot stop a God-Mode social strategy.",
   "The best time to post was yesterday. The next best is now.",
   "Success is built one great post at a time.",
 ];
@@ -53,155 +89,167 @@ export default function DashboardPage() {
       try {
         const res = await authFetch("/api/applications");
         if (res.ok && !cancelled) setApplications(await res.json());
-      } catch { /* ignore */ }
+      } catch {
+        // Dashboard should still render when auth data is unavailable.
+      }
     })();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
   const totalApps = applications.length;
   const interviewCount = applications.filter((a) => a.status === "interview").length;
-  const appliedCount = applications.filter((a) =>
-    ["applied", "interview", "offer"].includes(a.status as string)
-  ).length;
+  const appliedCount = applications.filter((a) => ["applied", "interview", "offer"].includes(a.status as string)).length;
 
   const stats = [
-    { label: "Total Applications", value: totalApps, icon: Briefcase, color: "text-blue-600 bg-blue-50" },
-    { label: "Active Applications", value: appliedCount, icon: TrendingUp, color: "text-emerald-600 bg-emerald-50" },
-    { label: "Interviews", value: interviewCount, icon: Star, color: "text-amber-600 bg-amber-50" },
+    { label: "Total Applications", value: totalApps, icon: Briefcase, tone: "bg-[#e9f4ee] text-[#176b5b]" },
+    { label: "Active Applications", value: appliedCount, icon: TrendingUp, tone: "bg-[#eaf0ff] text-[#3157a8]" },
+    { label: "Interviews", value: interviewCount, icon: Star, tone: "bg-[#fff3cf] text-[#946812]" },
   ];
 
   return (
-    <div>
-      {/* Tagline */}
-      <div className="mb-8 text-center">
-        <p className="text-sm font-semibold text-amber-600 uppercase tracking-widest">
-          ⚡ Beat the ATS in 60 seconds • God-Mode Your Job Hunt
-        </p>
-      </div>
-
-      {/* Upgrade Banner */}
-      <div className="bg-gradient-to-r from-slate-900 to-slate-800 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-        <div className="flex items-center gap-4">
-          <div className="w-10 h-10 rounded-xl bg-amber-400/20 flex items-center justify-center flex-shrink-0">
-            <Crown className="w-5 h-5 text-amber-400" />
-          </div>
-          <div>
-            <p className="text-white font-semibold text-sm">Unlock 4 premium AI tools</p>
-            <p className="text-slate-400 text-xs mt-0.5">
-              Mock Interview · Salary Negotiation · Career Roadmap · Portfolio Ideas
+    <div className="space-y-8">
+      <section className="overflow-hidden rounded-lg border border-[#dce3d7] bg-[#fbfcf7]">
+        <div className="grid gap-6 p-5 sm:p-7 lg:grid-cols-[1.35fr_0.65fr] lg:items-end">
+          <div className="min-w-0">
+            <p className="mb-3 text-xs font-extrabold uppercase tracking-[0.08em] text-[#176b5b]">
+              Beat the ATS in 60 seconds
+            </p>
+            <h1 className="max-w-4xl text-balance text-3xl font-black leading-[1.05] text-[#17201a] sm:text-5xl">
+              Run your job search and social engine from one clean command center.
+            </h1>
+            <p className="mt-4 max-w-2xl text-sm leading-6 text-[#647067] sm:text-base">
+              Build resumes, track applications, prepare interviews, and create social content without jumping between tools.
             </p>
           </div>
-        </div>
-        <Link href="/app/pricing">
-          <button className="bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-600 hover:to-orange-600 text-white text-sm font-semibold px-4 py-2 rounded-xl flex items-center gap-1.5 whitespace-nowrap">
-            <Zap className="w-4 h-4" /> Upgrade Now
-          </button>
-        </Link>
-      </div>
 
-      {/* Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-10">
+          <div className="rounded-lg border border-[#dce3d7] bg-white p-4 shadow-sm">
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#fff3cf] text-[#946812]">
+                <Crown className="h-5 w-5" />
+              </div>
+              <div className="min-w-0">
+                <p className="font-extrabold text-[#17201a]">Unlock premium tools</p>
+                <p className="mt-1 text-sm leading-5 text-[#647067]">Interview practice, salary scripts, roadmaps, and portfolio ideas.</p>
+              </div>
+            </div>
+            <Link
+              href="/app/pricing"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#176b5b] px-4 py-2.5 text-sm font-bold text-white transition hover:bg-[#0f4d44]"
+            >
+              Upgrade Now <ArrowRight className="h-4 w-4" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="grid gap-4 sm:grid-cols-3">
         {stats.map((stat) => {
           const Icon = stat.icon;
           return (
-            <div key={stat.label} className="card p-5 hover:shadow-md transition-shadow">
+            <div key={stat.label} className="card p-5">
               <div className="flex items-center gap-4">
-                <div className={`w-12 h-12 rounded-xl ${stat.color} flex items-center justify-center`}>
-                  <Icon className="w-5 h-5" />
+                <div className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-lg ${stat.tone}`}>
+                  <Icon className="h-5 w-5" />
                 </div>
-                <div>
-                  <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
-                  <p className="text-xs text-slate-400 font-medium">{stat.label}</p>
+                <div className="min-w-0">
+                  <p className="text-3xl font-black leading-none text-[#17201a]">{stat.value}</p>
+                  <p className="mt-1 truncate text-xs font-bold uppercase tracking-[0.04em] text-[#647067]">{stat.label}</p>
                 </div>
               </div>
             </div>
           );
         })}
-      </div>
+      </section>
 
-      {/* Motivational Quote */}
-      {quote && (
-        <div className="mb-8 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl p-4 border border-amber-100 text-center">
-          <p className="text-sm text-amber-800 italic">&ldquo;{quote}&rdquo;</p>
+      {quote ? (
+        <section className="rounded-lg border border-[#dce3d7] bg-[#fff3cf] px-5 py-4">
+          <p className="text-sm font-semibold leading-6 text-[#6f4f11]">&ldquo;{quote}&rdquo;</p>
+        </section>
+      ) : null}
+
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#176b5b]">Start Here</p>
+            <h2 className="mt-1 text-2xl font-black text-[#17201a]">Quick Actions</h2>
+          </div>
         </div>
-      )}
-
-      {/* Quick Actions */}
-      <div className="mb-10">
-        <h2 className="text-lg font-semibold text-slate-800 mb-4">Quick Actions</h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {quickActions.map((action) => {
             const Icon = action.icon;
             return (
-              <Link key={action.page} href={action.page} className="block">
-                <div className="card p-5 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-slate-200">
-                  <div className={`w-10 h-10 rounded-xl bg-gradient-to-br ${action.color} flex items-center justify-center mb-4 shadow-sm`}>
-                    <Icon className="w-5 h-5 text-white" />
+              <Link key={action.page} href={action.page} className="group block">
+                <div className="card flex h-full flex-col p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+                  <div className={`mb-5 flex h-11 w-11 items-center justify-center rounded-lg ${action.tone}`}>
+                    <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="font-semibold text-slate-800 mb-1">{action.title}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">{action.desc}</p>
-                  <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-slate-600 group-hover:translate-x-1 transition-all mt-3" />
+                  <h3 className="text-base font-extrabold text-[#17201a]">{action.title}</h3>
+                  <p className="mt-2 flex-1 text-sm leading-6 text-[#647067]">{action.desc}</p>
+                  <ArrowRight className="mt-5 h-4 w-4 text-[#176b5b] transition group-hover:translate-x-1" />
                 </div>
               </Link>
             );
           })}
         </div>
-      </div>
+      </section>
 
-      {/* Premium Tools */}
-      <div className="mb-10">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
-            <Zap className="w-4 h-4 text-amber-500" /> Premium Tools
-          </h2>
-          <Link href="/app/pricing" className="text-xs text-amber-600 font-semibold hover:text-amber-700 flex items-center gap-1">
-            Unlock all <ArrowRight className="w-3 h-3" />
+      <section className="space-y-4">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <p className="text-xs font-extrabold uppercase tracking-[0.08em] text-[#946812]">Premium</p>
+            <h2 className="mt-1 flex items-center gap-2 text-2xl font-black text-[#17201a]">
+              <Zap className="h-5 w-5 text-[#946812]" /> Career Boosters
+            </h2>
+          </div>
+          <Link href="/app/pricing" className="inline-flex items-center gap-1 text-sm font-bold text-[#176b5b]">
+            Unlock all <ArrowRight className="h-4 w-4" />
           </Link>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {premiumActions.map((action) => {
             const Icon = action.icon;
             return (
-              <Link key={action.page} href={action.page} className="block">
-                <div className="card p-5 transition-all duration-300 hover:-translate-y-1 cursor-pointer group border-amber-100 bg-gradient-to-br from-amber-50/30 to-orange-50/20 hover:shadow-md">
-                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-orange-500 flex items-center justify-center mb-4 shadow-sm">
-                    <Icon className="w-5 h-5 text-white" />
+              <Link key={action.page} href={action.page} className="group block">
+                <div className="card h-full border-[#ead9a6] bg-[#fffdf5] p-5 transition hover:-translate-y-0.5 hover:shadow-md">
+                  <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-lg bg-[#fff3cf] text-[#946812]">
+                    <Icon className="h-5 w-5" />
                   </div>
-                  <h3 className="font-semibold text-slate-800 mb-1">{action.title}</h3>
-                  <p className="text-xs text-slate-400 leading-relaxed">{action.desc}</p>
-                  <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-amber-500 group-hover:translate-x-1 transition-all mt-3" />
+                  <h3 className="text-base font-extrabold text-[#17201a]">{action.title}</h3>
+                  <p className="mt-2 text-sm leading-6 text-[#647067]">{action.desc}</p>
+                  <ArrowRight className="mt-5 h-4 w-4 text-[#946812] transition group-hover:translate-x-1" />
                 </div>
               </Link>
             );
           })}
         </div>
-      </div>
+      </section>
 
-      {/* Recent Applications */}
-      {applications.length > 0 && (
-        <div className="mb-10">
-          <div className="flex items-center justify-between mb-4">
-            <h2 className="text-lg font-semibold text-slate-800">Recent Applications</h2>
-            <Link href="/app/application-tracker" className="text-xs text-blue-600 font-semibold hover:text-blue-700 flex items-center gap-1">
-              View all <ArrowRight className="w-3 h-3" />
+      {applications.length > 0 ? (
+        <section className="space-y-4 pb-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <h2 className="text-2xl font-black text-[#17201a]">Recent Applications</h2>
+            <Link href="/app/application-tracker" className="inline-flex items-center gap-1 text-sm font-bold text-[#176b5b]">
+              View all <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
-          <div className="card overflow-hidden">
-            <table className="w-full text-sm">
+          <div className="card overflow-x-auto">
+            <table className="w-full min-w-[560px] text-sm">
               <thead>
-                <tr className="border-b border-gray-100 bg-gray-50">
-                  <th className="text-left py-3 px-4 font-medium text-slate-500">Position</th>
-                  <th className="text-left py-3 px-4 font-medium text-slate-500">Company</th>
-                  <th className="text-left py-3 px-4 font-medium text-slate-500">Status</th>
+                <tr className="border-b border-[#dce3d7] bg-[#f8faf5]">
+                  <th className="px-4 py-3 text-left font-bold text-[#647067]">Position</th>
+                  <th className="px-4 py-3 text-left font-bold text-[#647067]">Company</th>
+                  <th className="px-4 py-3 text-left font-bold text-[#647067]">Status</th>
                 </tr>
               </thead>
               <tbody>
                 {applications.slice(0, 5).map((app, i) => (
-                  <tr key={i} className="border-b border-gray-50 last:border-0">
-                    <td className="py-3 px-4 font-medium text-slate-800">{app.job_title as string}</td>
-                    <td className="py-3 px-4 text-slate-600">{app.company_name as string}</td>
-                    <td className="py-3 px-4">
-                      <span className={`inline-block px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[app.status as string] || "bg-gray-100 text-gray-600"}`}>
+                  <tr key={i} className="border-b border-[#edf1e9] last:border-0">
+                    <td className="px-4 py-3 font-bold text-[#17201a]">{app.job_title as string}</td>
+                    <td className="px-4 py-3 text-[#647067]">{app.company_name as string}</td>
+                    <td className="px-4 py-3">
+                      <span className={`inline-flex rounded-full px-2.5 py-1 text-xs font-bold ${statusColors[app.status as string] || "bg-gray-100 text-gray-600"}`}>
                         {(app.status as string) || "pending"}
                       </span>
                     </td>
@@ -210,8 +258,8 @@ export default function DashboardPage() {
               </tbody>
             </table>
           </div>
-        </div>
-      )}
+        </section>
+      ) : null}
     </div>
   );
 }

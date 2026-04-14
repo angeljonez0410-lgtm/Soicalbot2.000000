@@ -2,12 +2,32 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
-  LayoutDashboard, Search, FileText, Mail, Send, User,
-  X, Sparkles, ChevronRight, Mic, DollarSign, Map, Lightbulb,
-  Zap, CreditCard, Briefcase, MessageSquare, TrendingUp,
-  ArrowLeft, LogOut, Menu, Users, Bot, Shield
+  ArrowLeft,
+  Bot,
+  Briefcase,
+  ChevronRight,
+  CreditCard,
+  DollarSign,
+  FileText,
+  LayoutDashboard,
+  Lightbulb,
+  LogOut,
+  Mail,
+  Map,
+  Menu,
+  MessageSquare,
+  Mic,
+  Search,
+  Send,
+  Shield,
+  Sparkles,
+  TrendingUp,
+  User,
+  Users,
+  X,
+  Zap,
 } from "lucide-react";
 
 const NAV_ITEMS = [
@@ -37,11 +57,7 @@ const ADMIN_NAV = [
   { name: "Admin AI Assistant", path: "/app/admin-ai", icon: Bot },
 ];
 
-// Admin emails (should match server-side)
-const ADMIN_EMAILS = [
-  "angeljonez0410@gmail.com"
-  // Add more admin emails here if needed
-];
+const ADMIN_EMAILS = ["angeljonez0410@gmail.com"];
 
 const BOTTOM_TABS = [
   { name: "Dashboard", path: "/app", icon: LayoutDashboard },
@@ -50,6 +66,38 @@ const BOTTOM_TABS = [
   { name: "Profile", path: "/app/profile", icon: User },
 ];
 
+function NavLink({
+  item,
+  active,
+  onNavigate,
+  premium = false,
+}: {
+  item: { name: string; path: string; icon: typeof LayoutDashboard };
+  active: boolean;
+  onNavigate: () => void;
+  premium?: boolean;
+}) {
+  const Icon = item.icon;
+
+  return (
+    <Link
+      href={item.path}
+      onClick={onNavigate}
+      className={`group flex min-h-11 items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-semibold transition ${
+        active ? "bg-[#f0b83a] text-[#173d37] shadow-lg" : "text-emerald-50/85 hover:bg-white/10"
+      }`}
+    >
+      <Icon
+        className="h-[18px] w-[18px] shrink-0"
+        style={!active && premium ? { color: "#f0b83a" } : undefined}
+      />
+      <span className="min-w-0 flex-1 truncate">{item.name}</span>
+      {active ? <ChevronRight className="h-4 w-4 shrink-0 opacity-60" /> : null}
+      {!active && premium ? <Zap className="h-3 w-3 shrink-0 text-[#f0b83a]/80" /> : null}
+    </Link>
+  );
+}
+
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
@@ -57,15 +105,15 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const [isAdmin, setIsAdmin] = useState(false);
 
   useEffect(() => {
-    // Check if user is admin (client-side)
     const userStr = typeof window !== "undefined" ? localStorage.getItem("sb_user") : null;
-    let email = null;
-    if (userStr) {
-      try {
-        email = JSON.parse(userStr).email;
-      } catch {}
+    if (!userStr) return;
+
+    try {
+      const email = JSON.parse(userStr).email;
+      setIsAdmin(Boolean(email && ADMIN_EMAILS.includes(email.toLowerCase())));
+    } catch {
+      setIsAdmin(false);
     }
-    setIsAdmin(email && ADMIN_EMAILS.includes(email.toLowerCase()));
   }, []);
 
   const isActive = (path: string) => {
@@ -80,199 +128,116 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     router.push("/login");
   };
 
-  return (
-    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row pb-20 md:pb-0">
-      {/* Mobile overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 lg:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
+  const closeSidebar = () => setSidebarOpen(false);
 
-      {/* Sidebar */}
+  return (
+    <div className="min-h-screen bg-[#f6f8f4] text-[#17201a] lg:flex">
+      {sidebarOpen ? (
+        <button
+          aria-label="Close navigation"
+          className="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm lg:hidden"
+          onClick={closeSidebar}
+        />
+      ) : null}
+
       <aside
-        className={`
-          fixed lg:static inset-y-0 left-0 z-50 w-72 border-r border-[#2a3f5f]
-          transform transition-transform duration-300 ease-out flex flex-col
-          ${sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"}
-        `}
-        style={{ backgroundColor: "#1e2d42" }}
+        className={`fixed inset-y-0 left-0 z-50 flex w-[19rem] max-w-[86vw] flex-col border-r border-white/10 bg-[#173d37] transition-transform duration-300 lg:sticky lg:top-0 lg:h-screen ${
+          sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+        }`}
       >
-        {/* Logo */}
-        <div className="p-6 border-b border-[#2a3f5f]">
-          <div className="flex items-center justify-between">
-            <Link href="/app" className="flex items-center gap-3 group">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg group-hover:scale-105 transition-transform"
-                style={{ backgroundColor: "#f4c542" }}
-              >
-                <Sparkles className="w-5 h-5" style={{ color: "#1e2d42" }} />
+        <div className="border-b border-white/10 p-5">
+          <div className="flex items-center justify-between gap-4">
+            <Link href="/app" className="group flex min-w-0 items-center gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-[#f0b83a] shadow-lg transition group-hover:scale-105">
+                <Sparkles className="h-5 w-5 text-[#173d37]" />
               </div>
-              <div>
-                <h1 className="font-bold text-white text-lg leading-tight">Social Bot</h1>
-                <p
-                  className="text-[10px] uppercase tracking-[0.2em] font-medium"
-                  style={{ color: "#3b82f6" }}
-                >
+              <div className="min-w-0">
+                <h1 className="truncate text-lg font-extrabold leading-tight text-white">Social Bot</h1>
+                <p className="text-[10px] font-bold uppercase tracking-[0.08em] text-emerald-50/75">
                   AI Social Automation
                 </p>
               </div>
             </Link>
-            <button
-              className="lg:hidden text-white p-1"
-              onClick={() => setSidebarOpen(false)}
-            >
-              <X className="w-5 h-5" />
+            <button className="rounded-lg p-2 text-white lg:hidden" onClick={closeSidebar}>
+              <X className="h-5 w-5" />
             </button>
           </div>
-          <div className="mt-4 pt-4 border-t border-[#2a3f5f]">
-            <p className="text-xs text-white/80 italic leading-relaxed">
-              <span style={{ color: "#3b82f6" }}>⚡</span> Social Bot — AI-powered social media automation.
-            </p>
-          </div>
+          <p className="mt-4 border-t border-white/10 pt-4 text-xs leading-relaxed text-emerald-50/75">
+            AI-powered scheduling, captions, and social performance in one workspace.
+          </p>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 p-4 space-y-1 overflow-y-auto sidebar-scroll">
-          {NAV_ITEMS.map((item) => {
-            const active = isActive(item.path);
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.path}
-                href={item.path}
-                onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all duration-200 ${
-                  active ? "shadow-lg" : "text-[#e5e7eb] hover:bg-[#2a3f5f]"
-                }`}
-                style={active ? { backgroundColor: "#f4c542", color: "#1e2d42" } : {}}
-              >
-                <Icon className="w-[18px] h-[18px]" style={active ? { color: "#1e2d42" } : {}} />
-                <span>{item.name}</span>
-                {active && <ChevronRight className="w-4 h-4 ml-auto opacity-50" />}
-              </Link>
-            );
-          })}
+        <nav className="flex-1 space-y-1 overflow-y-auto p-3 sidebar-scroll">
+          {NAV_ITEMS.map((item) => (
+            <NavLink key={item.path} item={item} active={isActive(item.path)} onNavigate={closeSidebar} />
+          ))}
         </nav>
 
-        {/* Premium Nav */}
-        <div className="px-4 pb-2">
-          <p className="text-[10px] uppercase tracking-[0.15em] font-semibold text-white/60 px-4 mb-2 flex items-center gap-1.5">
-            <Zap className="w-3 h-3" style={{ color: "#f4c542" }} /> Premium
-          </p>
-          {PREMIUM_NAV.map((item) => {
-            const active = isActive(item.path);
-            const Icon = item.icon;
-            return (
-              <Link
-                key={item.path}
-                href={item.path}
-                onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 mb-0.5 ${
-                  active ? "shadow-lg" : "text-[#e5e7eb] hover:bg-[#2a3f5f]"
-                }`}
-                style={active ? { backgroundColor: "#f4c542", color: "#1e2d42" } : {}}
-              >
-                <Icon
-                  className="w-[18px] h-[18px]"
-                  style={active ? { color: "#1e2d42" } : { color: "#f4c542" }}
-                />
-                <span>{item.name}</span>
-                <Zap
-                  className="w-3 h-3 ml-auto"
-                  style={active ? { color: "#1e2d42", opacity: 0.7 } : { color: "#f4c542", opacity: 0.7 }}
-                />
-              </Link>
-            );
-          })}
+        <div className="space-y-1 px-3 pb-3">
+          <p className="px-3 text-[10px] font-bold uppercase tracking-[0.08em] text-emerald-50/60">Premium</p>
+          {PREMIUM_NAV.map((item) => (
+            <NavLink
+              key={item.path}
+              item={item}
+              active={isActive(item.path)}
+              onNavigate={closeSidebar}
+              premium
+            />
+          ))}
         </div>
 
-        {/* Admin Nav (only for admins) */}
-        {isAdmin && (
-          <div className="px-4 pb-2">
-            <p className="text-[10px] uppercase tracking-[0.15em] font-semibold text-white/60 px-4 mb-2 flex items-center gap-1.5">
-              <Shield className="w-3 h-3" style={{ color: "#f4c542" }} /> Admin
+        {isAdmin ? (
+          <div className="space-y-1 px-3 pb-3">
+            <p className="flex items-center gap-1.5 px-3 text-[10px] font-bold uppercase tracking-[0.08em] text-emerald-50/60">
+              <Shield className="h-3 w-3 text-[#f0b83a]" /> Admin
             </p>
-            {ADMIN_NAV.map((item) => {
-              const active = isActive(item.path);
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.path}
-                  href={item.path}
-                  onClick={() => setSidebarOpen(false)}
-                  className={`flex items-center gap-3 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 mb-0.5 ${
-                    active ? "shadow-lg" : "hover:bg-[#2a3f5f]"
-                  }`}
-                  style={active ? { backgroundColor: "#f4c542", color: "#1e2d42" } : { color: "#f4c542" }}
-                >
-                  <Icon
-                    className="w-[18px] h-[18px]"
-                    style={active ? { color: "#1e2d42" } : { color: "#f4c542" }}
-                  />
-                  <span>{item.name}</span>
-                </Link>
-              );
-            })}
+            {ADMIN_NAV.map((item) => (
+              <NavLink key={item.path} item={item} active={isActive(item.path)} onNavigate={closeSidebar} premium />
+            ))}
           </div>
-        )}
+        ) : null}
 
-        {/* Footer */}
-        <div className="p-4 border-t border-[#2a3f5f] mt-2 space-y-3">
-          <div
-            className="rounded-xl p-4 border"
-            style={{
-              background: "linear-gradient(to bottom right, rgba(244,197,66,0.2), rgba(244,197,66,0.1))",
-              borderColor: "rgba(244,197,66,0.3)",
-            }}
-          >
-            <p className="text-xs font-semibold mb-1" style={{ color: "#f4c542" }}>AI-Powered</p>
-            <p className="text-[11px] text-white/70 leading-relaxed">
+        <div className="mt-auto space-y-3 border-t border-white/10 p-3">
+          <div className="rounded-lg border border-[#f0b83a]/30 bg-[#f0b83a]/15 p-4">
+            <p className="mb-1 text-xs font-bold text-[#f0b83a]">AI-Powered</p>
+            <p className="text-[11px] leading-relaxed text-white/70">
               Manage, schedule, and analyze your social media with AI.
             </p>
           </div>
           <button
             onClick={handleSignOut}
-            className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium text-white/60 hover:text-white hover:bg-[#2a3f5f] transition-colors"
+            className="flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-white/65 transition hover:bg-white/10 hover:text-white"
           >
-            <LogOut className="w-4 h-4" />
+            <LogOut className="h-4 w-4" />
             Sign Out
           </button>
         </div>
       </aside>
 
-      {/* Main content */}
-      <div className="flex-1 flex flex-col min-w-0 md:pt-0 pt-14">
-        {/* Mobile header */}
-        <header
-          className="lg:hidden fixed top-0 left-0 right-0 z-40 px-4 py-3 flex items-center gap-3"
-          style={{ backgroundColor: "#1e2d42" }}
-        >
-          <button className="text-white p-1" onClick={() => setSidebarOpen(true)}>
-            <Menu className="w-5 h-5" />
+      <div className="flex min-w-0 flex-1 flex-col pt-14 lg:pt-0">
+        <header className="fixed left-0 right-0 top-0 z-40 flex items-center gap-3 bg-[#173d37] px-4 py-3 lg:hidden">
+          <button className="rounded-lg p-1 text-white" onClick={() => setSidebarOpen(true)}>
+            <Menu className="h-5 w-5" />
           </button>
-          {pathname !== "/app" && (
-            <button className="text-white p-1" onClick={() => router.back()}>
-              <ArrowLeft className="w-5 h-5" />
+          {pathname !== "/app" ? (
+            <button className="rounded-lg p-1 text-white" onClick={() => router.back()}>
+              <ArrowLeft className="h-5 w-5" />
             </button>
-          )}
-          <Link href="/app" className="flex items-center gap-2 ml-auto">
-            <div className="w-7 h-7 rounded-lg flex items-center justify-center" style={{ backgroundColor: "#3b82f6" }}>
-              <Sparkles className="w-3.5 h-3.5" style={{ color: "#fff" }} />
+          ) : null}
+          <Link href="/app" className="ml-auto flex min-w-0 items-center gap-2">
+            <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg bg-[#f0b83a]">
+              <Sparkles className="h-3.5 w-3.5 text-[#173d37]" />
             </div>
-            <span className="font-bold text-white text-sm">Social Bot</span>
+            <span className="truncate text-sm font-bold text-white">Social Bot</span>
           </Link>
         </header>
 
-        <main className="flex-1 p-4 md:p-10">{children}</main>
+        <main className="flex-1 px-4 py-5 sm:px-6 lg:px-10 lg:py-8">
+          <div className="mx-auto w-full max-w-7xl">{children}</div>
+        </main>
       </div>
 
-      {/* Mobile bottom tab bar */}
-      <nav
-        className="lg:hidden fixed bottom-0 left-0 right-0 z-40 border-t border-[#2a3f5f] flex justify-around"
-        style={{ backgroundColor: "#1e2d42" }}
-      >
+      <nav className="fixed bottom-0 left-0 right-0 z-40 flex justify-around border-t border-white/10 bg-[#173d37] lg:hidden">
         {BOTTOM_TABS.map((item) => {
           const active = isActive(item.path);
           const Icon = item.icon;
@@ -280,12 +245,12 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
             <Link
               key={item.path}
               href={item.path}
-              className={`flex flex-col items-center justify-center py-3 px-2 text-xs font-medium transition-all ${
-                active ? "text-[#f4c542]" : "text-gray-400 hover:text-gray-300"
+              className={`flex min-w-0 flex-1 flex-col items-center justify-center px-1 py-3 text-xs font-semibold transition ${
+                active ? "text-[#f0b83a]" : "text-emerald-50/60 hover:text-emerald-50"
               }`}
             >
-              <Icon className="w-5 h-5 mb-1" />
-              <span className="truncate w-12 text-center">{item.name}</span>
+              <Icon className="mb-1 h-5 w-5" />
+              <span className="w-full truncate text-center">{item.name}</span>
             </Link>
           );
         })}
