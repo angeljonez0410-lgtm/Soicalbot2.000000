@@ -1,36 +1,36 @@
 "use client";
 
 import Link from "next/link";
-import { FolderOpen, Play, Plus, TrendingUp, Users, Video, Wand2, Zap } from "lucide-react";
+import { Briefcase, FileText, Mail, Map, Mic, Plus, Star, TrendingUp, Zap } from "lucide-react";
 
 const stats = [
-  { title: "Characters", value: 0, subtitle: "Master characters", icon: Users, glow: "bg-violet-500" },
-  { title: "Videos", value: 0, subtitle: "Generated videos", icon: Video, glow: "bg-fuchsia-500" },
+  { title: "Applications", value: 0, subtitle: "Tracked roles", icon: Briefcase, glow: "bg-blue-500" },
+  { title: "Interviews", value: 0, subtitle: "In progress", icon: Mic, glow: "bg-emerald-500" },
   { title: "Credits Used", value: 0, subtitle: "This month", icon: Zap, glow: "bg-cyan-500" },
-  { title: "Success Rate", value: "-", subtitle: "Generation success", icon: TrendingUp, glow: "bg-emerald-500" },
+  { title: "Response Rate", value: "-", subtitle: "Job hunt signal", icon: TrendingUp, glow: "bg-amber-500" },
 ];
 
 const actions = [
   {
-    label: "New Character",
-    description: "Create a master character",
-    icon: Users,
-    path: "/app/characters",
-    gradient: "from-violet-500 to-purple-600",
+    label: "Update Profile",
+    description: "Save your career details",
+    icon: FileText,
+    path: "/app/profile",
+    gradient: "from-blue-500 to-cyan-600",
   },
   {
-    label: "Create Video",
-    description: "Generate a new video",
-    icon: Video,
-    path: "/app/create-video",
-    gradient: "from-fuchsia-500 to-pink-600",
+    label: "Track Application",
+    description: "Add a job opportunity",
+    icon: Briefcase,
+    path: "/app/application-tracker",
+    gradient: "from-emerald-500 to-teal-600",
   },
   {
-    label: "Quick Generate",
-    description: "Use a scene template",
-    icon: Wand2,
-    path: "/app/quick-generate",
-    gradient: "from-cyan-500 to-blue-600",
+    label: "Practice Interview",
+    description: "Prepare stronger answers",
+    icon: Mic,
+    path: "/app/interview-coach",
+    gradient: "from-amber-500 to-orange-600",
   },
 ];
 
@@ -39,7 +39,7 @@ export default function DashboardPage() {
     <div className="mx-auto max-w-7xl px-5 py-6 sm:px-6 lg:px-10 lg:py-10">
       <section className="mb-10">
         <h1 className="text-3xl font-bold tracking-tight text-white">Studio</h1>
-        <p className="mt-1 text-sm text-slate-400">Create stunning AI influencer videos</p>
+        <p className="mt-1 text-sm text-slate-400">Manage your resume, job search, interviews, and next career move.</p>
       </section>
 
       <section className="mb-10 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -88,17 +88,24 @@ export default function DashboardPage() {
       </section>
 
       <section>
-        <h2 className="mb-4 text-lg font-semibold text-white">Recent Projects</h2>
+        <h2 className="mb-4 text-lg font-semibold text-white">Career Toolkit</h2>
         <div className="rounded-2xl border border-white/5 bg-slate-900/50 p-8 text-center">
-          <Play className="mx-auto mb-3 h-10 w-10 text-slate-600" />
-          <p className="text-sm text-slate-400">No projects yet</p>
-          <p className="mt-1 text-xs text-slate-500">Create your first video to get started</p>
+          <Star className="mx-auto mb-3 h-10 w-10 text-slate-600" />
+          <p className="text-sm text-slate-400">Start with your profile, then use AI tools to move faster.</p>
+          <p className="mt-1 text-xs text-slate-500">ResumeVaultGodAI keeps the whole job search in one place.</p>
           <Link
-            href="/app/create-video"
+            href="/app/career-roadmap"
             className="mt-5 inline-flex items-center gap-2 rounded-xl border border-violet-500/30 bg-violet-500/10 px-4 py-2 text-sm font-semibold text-violet-300 transition hover:bg-violet-500/15"
           >
-            <FolderOpen className="h-4 w-4" />
-            Start a project
+            <Map className="h-4 w-4" />
+            Build a roadmap
+          </Link>
+          <Link
+            href="/app/follow-up-email"
+            className="ml-3 mt-5 inline-flex items-center gap-2 rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-4 py-2 text-sm font-semibold text-cyan-300 transition hover:bg-cyan-500/15"
+          >
+            <Mail className="h-4 w-4" />
+            Write follow-up
           </Link>
         </div>
       </section>

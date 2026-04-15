@@ -4,8 +4,8 @@ import AppShell from "@/components/AppShell";
 import AIAssistant from "@/components/AIAssistant";
 
 export const metadata = {
-  title: "Social Bot Dashboard",
-  description: "Manage and automate your social media accounts with AI.",
+  title: "ResumeVaultGodAI Dashboard",
+  description: "Build resumes, track applications, prepare for interviews, and grow your career.",
 };
 
 export default function AppLayout({ children }: { children: React.ReactNode }) {

@@ -9,8 +9,8 @@ const manrope = Manrope({
 });
 
 export const metadata: Metadata = {
-  title: "Social Bot Dashboard",
-  description: "Manage and automate your social media accounts with the original social bot.",
+  title: "ResumeVaultGodAI",
+  description: "AI resume, job search, interview, and career tools for ambitious job seekers.",
 };
 
 export default function RootLayout({

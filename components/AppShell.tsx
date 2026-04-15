@@ -6,30 +6,35 @@ import { useState } from "react";
 import { getSupabaseBrowser } from "@/lib/supabase-browser";
 import {
   Bot,
+  Briefcase,
   ChevronLeft,
   ChevronRight,
-  FolderOpen,
+  FileText,
+  Globe,
   LayoutDashboard,
   LogOut,
+  Mail,
+  Map,
   Menu,
+  MessageSquare,
+  Mic,
   Settings,
-  Share2,
   Sparkles,
-  Users,
-  Video,
-  Wand2,
   X,
   Zap,
 } from "lucide-react";
 
 const navItems = [
   { path: "/app", label: "Dashboard", icon: LayoutDashboard },
-  { path: "/app/characters", label: "Characters", icon: Users },
-  { path: "/app/create-video", label: "Create Video", icon: Video },
-  { path: "/app/quick-generate", label: "Quick Generate", icon: Wand2 },
-  { path: "/app/social-media", label: "Social Media", icon: Share2 },
-  { path: "/app/projects", label: "Projects", icon: FolderOpen },
-  { path: "/AIAssistant", label: "ARIA AI", icon: Bot },
+  { path: "/app/profile", label: "Profile", icon: FileText },
+  { path: "/app/application-tracker", label: "Applications", icon: Briefcase },
+  { path: "/app/analytics", label: "Analytics", icon: Zap },
+  { path: "/app/interview-coach", label: "Interview Coach", icon: Mic },
+  { path: "/app/follow-up-email", label: "Follow-Up Email", icon: Mail },
+  { path: "/app/career-roadmap", label: "Career Roadmap", icon: Map },
+  { path: "/app/portfolio-builder", label: "Portfolio Builder", icon: Globe },
+  { path: "/app/reviews", label: "Reviews", icon: MessageSquare },
+  { path: "/AIAssistant", label: "Career AI", icon: Bot },
   { path: "/app/settings", label: "Settings", icon: Settings },
 ];
 
@@ -71,7 +76,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               <Sparkles className="h-4 w-4 text-white" />
             </div>
             {!collapsed ? (
-              <span className="truncate text-lg font-semibold tracking-tight text-white">InfluencerAI</span>
+              <span className="truncate text-lg font-semibold tracking-tight text-white">ResumeVaultGodAI</span>
             ) : null}
           </Link>
           <button className="ml-auto rounded-lg p-1 text-slate-400 lg:hidden" onClick={() => setMobileOpen(false)}>
@@ -143,7 +148,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-violet-500 to-fuchsia-500">
             <Sparkles className="h-3.5 w-3.5" />
           </div>
-          <span className="text-sm font-semibold">InfluencerAI</span>
+          <span className="text-sm font-semibold">ResumeVaultGodAI</span>
         </Link>
       </header>
 

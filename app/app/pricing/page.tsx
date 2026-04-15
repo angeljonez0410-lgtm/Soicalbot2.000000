@@ -16,18 +16,18 @@ const creditPacks: Array<{
 ];
 
 const usageExamples = [
-  { icon: FileText, name: "AI Post Generation", cost: "2 credits", desc: "AI-generated social media post for any platform" },
+  { icon: FileText, name: "Resume Rewrite", cost: "2 credits", desc: "Targeted resume improvements for a role" },
   { icon: Mic, name: "Mock Interview Session", cost: "3 credits", desc: "Full AI interview with feedback" },
-  { icon: Send, name: "Auto-Apply (per app)", cost: "1 credit", desc: "Automated job application submission" },
+  { icon: Send, name: "Follow-Up Email", cost: "1 credit", desc: "Professional follow-up message generation" },
   { icon: FileText, name: "Cover Letter", cost: "1 credit", desc: "Personalized cover letter generation" },
   { icon: Star, name: "Career Roadmap", cost: "2 credits", desc: "Customized career progression plan" },
   { icon: Zap, name: "Salary Negotiation Script", cost: "1 credit", desc: "Data-backed negotiation talking points" },
 ];
 
 const testimonials = [
-  { name: "Sarah K.", role: "Product Manager", text: "Grew my followers in my first week using the Social Bot. The AI post generation is incredible.", stars: 5 },
+  { name: "Sarah K.", role: "Product Manager", text: "I finally had one place for my resume, applications, and interview prep. It made my search feel manageable.", stars: 5 },
   { name: "Marcus J.", role: "Software Engineer", text: "The Mock Interview feature helped me ace my Google interview. Worth every penny.", stars: 5 },
-  { name: "Lisa T.", role: "Marketing Director", text: "Auto Apply saved me 20+ hours a week. I landed my dream job in 3 weeks.", stars: 5 },
+  { name: "Lisa T.", role: "Marketing Director", text: "The follow-up writer and application tracker kept me consistent until I landed my next role.", stars: 5 },
 ];
 
 export default function PricingPage() {
@@ -101,7 +101,7 @@ function PricingContent() {
         </div>
         <h1 className="text-3xl font-bold text-slate-800 mb-2">Buy Credits</h1>
         <p className="text-slate-500 max-w-lg mx-auto">
-          Purchase credits and use them across all AI tools — posts, analytics, scheduling, and more.
+          Purchase credits and use them across AI career tools for resumes, interviews, follow-ups, and planning.
         </p>
       </div>
 

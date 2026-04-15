@@ -33,7 +33,7 @@ export default function AIAssistant({ defaultOpen = false }: { defaultOpen?: boo
     setMessages([
       {
         role: "assistant",
-        content: `${greeting}, ${name}! I'm ARIA, your InfluencerAI studio assistant.\n\nI can help with character concepts, image prompts, video scripts, caption packs, social strategy, and campaign ideas.\n\nWhat are we creating today?`,
+        content: `${greeting}, ${name}! I'm ARIA, your ResumeVaultGodAI career assistant.\n\nI can help with resumes, job search strategy, interview prep, follow-up emails, portfolios, and career planning.\n\nWhat are we working on today?`,
       },
     ]);
   }, [isOpen, greeted]);
@@ -91,7 +91,7 @@ export default function AIAssistant({ defaultOpen = false }: { defaultOpen?: boo
           </div>
           <div>
             <h3 className="text-sm font-bold">ARIA AI</h3>
-            <p className="text-xs text-slate-400">Studio co-pilot</p>
+            <p className="text-xs text-slate-400">Career co-pilot</p>
           </div>
         </div>
         <button onClick={() => setIsOpen(false)} className="text-white/70 transition hover:text-white">
@@ -132,7 +132,7 @@ export default function AIAssistant({ defaultOpen = false }: { defaultOpen?: boo
             onKeyDown={(event) => {
               if (event.key === "Enter" && !event.shiftKey) void sendMessage();
             }}
-            placeholder="Ask ARIA for prompts, scripts, captions..."
+            placeholder="Ask ARIA about resumes, interviews, or jobs..."
             className="flex-1 rounded-xl border border-white/10 bg-slate-950 px-3 py-2.5 text-sm text-white outline-none placeholder:text-slate-600 focus:border-violet-500/50"
             disabled={loading}
           />
