@@ -20,7 +20,7 @@ export default function AIAssistant() {
   const [messages, setMessages] = useState([
     {
       role: 'assistant',
-      content: `# Hey, I'm Zuzu 🤖\n\nI'm your **AI Social Media Co-Owner**!\n\nI can help you connect, manage, and automate all your social accounts, generate viral content, push code, and even build new features.\n\n**What should we create, automate, or launch today?**`,
+      content: `# Hey, I'm ARIA\n\nI'm your **ResumeVaultGod AI assistant** for launch content, social posts, scripts, image prompts, video prompts, and app debugging.\n\n**What should we create or fix today?**`,
     }
   ]);
   const [input, setInput] = useState('');
@@ -46,7 +46,7 @@ export default function AIAssistant() {
     try {
       const response = await base44.functions.invoke('ariaAssistant', {
         messages: newMessages.filter(m => m.role !== 'system'),
-        systemContext: 'You are Zuzu, the AI co-owner of a vibrant social media automation platform. Help the user connect, manage, and automate all major social media accounts (Instagram, TikTok, Facebook, LinkedIn, YouTube, Twitter/X, Threads, Pinterest, Reddit, Discord, Telegram, Snapchat, etc.). You can generate content, schedule posts, manage API keys, and even push/commit/build code for the user. The UI is modern, colorful, and energetic. Avoid any resume/job-hunt language. Focus on social media growth, automation, and creativity.',
+        systemContext: 'Focus on ResumeVaultGod.com, an AI job hunt command center with ATS resume help, cover letters, follow-up emails, mock interviews, salary scripts, career roadmaps, portfolio tools, and application tracking. No credits or subscription language.',
       });
 
       const aiText = response?.data?.response || response?.response;
@@ -75,7 +75,7 @@ export default function AIAssistant() {
   const clearChat = () => {
     setMessages([{
       role: 'assistant',
-      content: `# Hey, I'm Zuzu 🤖\n\nChat cleared! Ready for a fresh start. What should we automate or create for your social empire?`,
+      content: `# Hey, I'm ARIA 👋\n\nChat cleared! Ready for a fresh start. What are we building today, partner?`,
     }]);
   };
 
@@ -88,10 +88,10 @@ export default function AIAssistant() {
             <Sparkles className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h1 className="text-white font-bold text-lg">Zuzu</h1>
+            <h1 className="text-white font-bold text-lg">ARIA</h1>
             <div className="flex items-center gap-2">
-              <div className="w-2 h-2 rounded-full bg-pink-400 animate-pulse" />
-              <span className="text-xs text-slate-400">AI Social Media Co-Owner · Gemini Pro</span>
+              <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span className="text-xs text-slate-400">ResumeVaultGod AI Assistant · Gemini Pro</span>
             </div>
           </div>
         </div>

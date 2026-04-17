@@ -18,10 +18,14 @@ import { cn } from '@/lib/utils';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const navItems = [
-  { path: '/SocialMedia', label: 'Accounts', icon: Share2 },
-  { path: '/Settings', label: 'API Keys', icon: Zap },
-  { path: '/Dashboard', label: 'Connected', icon: LayoutDashboard },
-  { path: '/AIAssistant', label: 'Zuzu AI', icon: Bot },
+  { path: '/Dashboard', label: 'Dashboard', icon: LayoutDashboard },
+  { path: '/Characters', label: 'Characters', icon: Users },
+  { path: '/Create', label: 'Create Video', icon: Video },
+  { path: '/Generate', label: 'Quick Generate', icon: Wand2 },
+  { path: '/SocialMedia', label: 'Social Media', icon: Share2 },
+  { path: '/Projects', label: 'Projects', icon: FolderOpen },
+  { path: '/AIAssistant', label: 'ARIA AI', icon: Bot },
+  { path: '/Settings', label: 'Settings', icon: Settings },
 ];
 
 export default function Sidebar({ collapsed, onToggle }) {
@@ -47,7 +51,7 @@ export default function Sidebar({ collapsed, onToggle }) {
                 exit={{ opacity: 0, x: -10 }}
                 className="text-white font-semibold text-lg tracking-tight whitespace-nowrap"
               >
-                SocialBot
+                InfluencerAI
               </motion.span>
             )}
           </AnimatePresence>

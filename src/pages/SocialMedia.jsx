@@ -105,20 +105,25 @@ Main tools to reference when relevant:
 - Free access in this app: no credits, subscriptions, or paywall language
 Tone: confident, modern, practical, empowering, and direct. Avoid hype that sounds fake. Drive users to ${WEBSITE_URL}.`;
 
-const WEBSITE_LAUNCH_TOPIC = `Promote SocialBot as the ultimate AI-powered social media automation and management platform. Connect, automate, and grow all your social accounts from one vibrant dashboard.`;
+const WEBSITE_LAUNCH_TOPIC = `Promote ResumeVaultGod.com as an AI job hunt command center that helps job seekers beat ATS filters, improve resumes, write cover letters, practice interviews, track applications, and move faster from applying to interviewing.`;
 
-const SOCIAL_TOPICS = [
+const RESUME_TOPICS = [
   WEBSITE_LAUNCH_TOPIC,
-  'Why SocialBot is the best way to automate and grow your social presence',
-  'How to connect all your social accounts in one place',
-  'Tips for viral content on Instagram, TikTok, and more',
-  'How Zuzu (the AI co-owner) can help you manage, post, and build new features',
-  'API key management for advanced integrations',
-  'Showcase: Growing your brand with SocialBot',
-  'How to use analytics to boost engagement',
-  'Best practices for safe social automation',
-  'How to collaborate with your AI assistant',
-  'Design inspiration: Making your dashboard pop',
+  'Why ResumeVaultGod.com is built for job seekers who are tired of applying into silence',
+  'How ResumeVaultGod.com helps turn one job description into a stronger resume, cover letter, and interview plan',
+  'A day-in-the-life post showing how a job seeker uses ResumeVaultGod.com from resume scan to application tracker',
+  'How to write a resume that beats ATS in 2025',
+  'Top 5 mistakes killing your job applications',
+  'AI vs human resume: which gets more callbacks?',
+  'Resume tips for career changers',
+  'How to get hired with no experience',
+  'LinkedIn profile optimization secrets',
+  'Salary negotiation scripts that work',
+  'Cover letter that actually gets read',
+  'Interview preparation with AI tools',
+  'Personal branding for job seekers',
+  'Remote job hunting strategy',
+  'Tech resume vs traditional resume',
 ];
 
 const CONTENT_TYPES = [

@@ -1,36 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { base44 } from '@/api/base44Client';
+import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Switch } from '@/components/ui/switch';
 import { motion } from 'framer-motion';
-import { Zap } from 'lucide-react';
-
-const SOCIAL_PLATFORMS = [
-  { id: 'instagram', name: 'Instagram' },
-  { id: 'tiktok', name: 'TikTok' },
-  { id: 'facebook', name: 'Facebook' },
-  { id: 'linkedin', name: 'LinkedIn' },
-  { id: 'youtube', name: 'YouTube' },
-  { id: 'twitter', name: 'Twitter/X' },
-  { id: 'threads', name: 'Threads' },
-  { id: 'pinterest', name: 'Pinterest' },
-  { id: 'reddit', name: 'Reddit' },
-  { id: 'discord', name: 'Discord' },
-  { id: 'telegram', name: 'Telegram' },
-  { id: 'snapchat', name: 'Snapchat' },
-];
+import { User, Bell, Zap, LogOut } from 'lucide-react';
 
 export default function Settings() {
-  const [apiKeys, setApiKeys] = useState(() => {
-    const saved = localStorage.getItem('socialbot_api_keys');
-    return saved ? JSON.parse(saved) : {};
-  });
+  const [user, setUser] = useState(null);
+  const [notifications, setNotifications] = useState(true);
 
-  const handleApiKeyChange = (platformId, value) => {
-    const next = { ...apiKeys, [platformId]: value };
-    setApiKeys(next);
-    localStorage.setItem('socialbot_api_keys', JSON.stringify(next));
-  };
+  useEffect(() => {
+    base44.auth.me().then(setUser).catch(() => {});
+  }, []);
 
   return (
     <div className="p-6 lg:p-10 max-w-3xl mx-auto">
@@ -39,31 +23,37 @@ export default function Settings() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-8"
       >
-        <h1 className="text-3xl font-bold text-white tracking-tight">API Keys</h1>
-        <p className="text-slate-400 mt-1 text-sm">Enter and manage your API keys for all supported social platforms.</p>
+        <h1 className="text-3xl font-bold text-white tracking-tight">Settings</h1>
+        <p className="text-slate-400 mt-1 text-sm">Manage your account and preferences</p>
       </motion.div>
 
       <div className="space-y-6">
+        {/* Profile */}
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
           <Card className="bg-slate-900/50 border-white/5">
             <CardHeader className="pb-4">
               <CardTitle className="text-white text-base flex items-center gap-2">
-                <Zap className="w-4 h-4 text-pink-400" /> Social Platform API Keys
+                <User className="w-4 h-4 text-violet-400" /> Profile
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {SOCIAL_PLATFORMS.map(platform => (
-                  <div key={platform.id}>
-                    <Label className="text-slate-400 text-xs">{platform.name} API Key</Label>
-                    <Input
-                      value={apiKeys[platform.id] || ''}
-                      onChange={e => handleApiKeyChange(platform.id, e.target.value)}
-                      className="bg-slate-900 border-white/10 text-white mt-1"
-                      placeholder={`Enter ${platform.name} API Key`}
-                    />
-                  </div>
-                ))}
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <Label className="text-slate-400 text-xs">Name</Label>
+                  <Input
+                    value={user?.full_name || ''}
+                    readOnly
+                    className="bg-slate-900 border-white/10 text-white mt-1"
+                  />
+                </div>
+                <div>
+                  <Label className="text-slate-400 text-xs">Email</Label>
+                  <Input
+                    value={user?.email || ''}
+                    readOnly
+                    className="bg-slate-900 border-white/10 text-white mt-1"
+                  />
+                </div>
               </div>
             </CardContent>
           </Card>
