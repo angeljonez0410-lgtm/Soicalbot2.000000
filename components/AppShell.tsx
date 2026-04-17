@@ -49,15 +49,18 @@ const ADMIN_NAV = [
     return pathname.startsWith(path);
   };
 
+
+  // Sign out disables tokens but does NOT redirect to login anymore
   const handleSignOut = () => {
     localStorage.removeItem("sb_access_token");
     localStorage.removeItem("sb_refresh_token");
     localStorage.removeItem("sb_user");
-    router.push("/login");
+    // No redirect, stays on dashboard
   };
 
+  // SUPER APP REDESIGN: vibrant, modern, animated UI shell
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col md:flex-row pb-20 md:pb-0">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-600 via-pink-500 to-yellow-400 flex flex-col md:flex-row pb-20 md:pb-0 animate-fade-in">
       {/* Mobile overlay */}
       {sidebarOpen && (
         <div

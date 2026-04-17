@@ -1,15 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-<<<<<<< HEAD
-    "lib": ["dom", "dom.iterable", "esnext"],
-=======
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -19,11 +15,7 @@
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
     "isolatedModules": true,
-<<<<<<< HEAD
-    "jsx": "react-jsx",
-=======
-    "jsx": "preserve",
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)
+  "jsx": "react-jsx",
     "incremental": true,
     "plugins": [
       {
@@ -31,13 +23,9 @@
       }
     ],
     "paths": {
-<<<<<<< HEAD
-      "@/*": ["./*"]
-=======
-      "@/*": [
-        "./*"
-      ]
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)
+  "@/*": [
+    "./*"
+  ]
     }
   },
   "include": [
@@ -48,9 +36,9 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-<<<<<<< HEAD
+ 
   "exclude": ["node_modules"]
-=======
+ 
   "exclude": [
     "node_modules",
     "base44",
@@ -60,5 +48,4 @@
     "recovered-original-social-bot-b735c59-full",
     "vite-src"
   ]
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)
 }
