@@ -25,6 +25,20 @@ function fireConfetti() {
 }
 
 export default function ZuzuDashboard() {
+  // AI tips for dashboard
+  const aiTips = [
+    "Tip: Use the Content Calendar to plan a month of posts in seconds!",
+    "Tip: Connect all your socials for full automation and analytics.",
+    "Tip: Try the AI Assistant for code, content, and strategy help!",
+    "Tip: Use the Characters page to create custom AI personas for your brand.",
+  ];
+  const [tipIndex, setTipIndex] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTipIndex((i) => (i + 1) % aiTips.length);
+    }, 8000);
+    return () => clearInterval(interval);
+  }, []);
   useEffect(() => {
     // Dynamically load canvas-confetti if not present
     if (typeof window !== "undefined" && !window.confetti) {
@@ -38,46 +52,66 @@ export default function ZuzuDashboard() {
   }, []);
 
   return (
-    <div className="relative mx-auto max-w-6xl py-20 px-6 animate-gradient-bg">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-fuchsia-700 via-violet-700 to-slate-900 animate-gradient-move opacity-80 blur-2xl" />
-      <h1 className="text-7xl font-black text-fuchsia-200 drop-shadow-2xl mb-14 text-center uppercase tracking-tight flex items-center justify-center gap-6 animate-pop">
-        <LayoutDashboard className="h-16 w-16 animate-pulse" />
-        Zuzu AI Dashboard
-      </h1>
-
-      {/* Animated Quick Stats */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-16">
-        <div className="rounded-3xl p-8 bg-gradient-to-br from-yellow-400 via-fuchsia-500 to-violet-600 shadow-xl border-4 border-fuchsia-300 animate-pop flex flex-col items-center">
-          <span className="text-5xl font-black text-white drop-shadow animate-bounce">12</span>
-          <span className="text-lg font-extrabold text-fuchsia-100 mt-2 uppercase tracking-wider">Socials Linked</span>
+    <>
+      {/* Skip to content for accessibility */}
+      <a href="#main-content" className="sr-only focus:not-sr-only absolute left-4 top-4 z-50 bg-yellow-400 text-black font-bold px-6 py-3 rounded-xl shadow-lg focus-visible:ring-4 focus-visible:ring-fuchsia-400">Skip to main content</a>
+      {/* AI Suggest floating button */}
+      <button
+        aria-label="Get AI suggestions for this page"
+        title="Get AI suggestions for this page"
+        className="fixed bottom-8 left-8 z-40 rounded-full bg-gradient-to-br from-yellow-400 via-fuchsia-500 to-violet-600 p-5 shadow-2xl border-4 border-fuchsia-300 animate-pop focus-visible:ring-4 focus-visible:ring-yellow-300"
+        onClick={() => alert('AI Suggestion: ' + aiTips[tipIndex])}
+      >
+        <Sparkles className="h-8 w-8 text-white drop-shadow" />
+      </button>
+      {/* Main content */}
+      <div id="main-content" className="relative mx-auto max-w-6xl py-20 px-6 animate-gradient-bg">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-fuchsia-700 via-violet-700 to-slate-900 animate-gradient-move opacity-80 blur-2xl" />
+        {/* AI Tip Banner */}
+        <div role="status" aria-live="polite" className="mb-8 flex items-center justify-center gap-4 rounded-2xl bg-gradient-to-r from-yellow-400 via-fuchsia-500 to-violet-600 px-8 py-4 shadow-xl border-4 border-fuchsia-300 animate-pop">
+          <Sparkles className="h-8 w-8 text-white animate-bounce" />
+          <span className="text-2xl font-extrabold text-white">{aiTips[tipIndex]}</span>
         </div>
-        <div className="rounded-3xl p-8 bg-gradient-to-br from-fuchsia-400 via-violet-500 to-yellow-400 shadow-xl border-4 border-yellow-300 animate-pop flex flex-col items-center">
-          <span className="text-5xl font-black text-white drop-shadow animate-bounce">30</span>
-          <span className="text-lg font-extrabold text-fuchsia-100 mt-2 uppercase tracking-wider">Day Content Plan</span>
-        </div>
-        <div className="rounded-3xl p-8 bg-gradient-to-br from-violet-500 via-fuchsia-500 to-yellow-400 shadow-xl border-4 border-fuchsia-300 animate-pop flex flex-col items-center">
-          <span className="text-5xl font-black text-white drop-shadow animate-bounce">99%</span>
-          <span className="text-lg font-extrabold text-fuchsia-100 mt-2 uppercase tracking-wider">AI Success Rate</span>
-        </div>
-      </div>
+        <h1 className="text-7xl font-black text-fuchsia-200 drop-shadow-2xl mb-14 text-center uppercase tracking-tight flex items-center justify-center gap-6 animate-pop">
+          <LayoutDashboard className="h-16 w-16 animate-pulse" aria-label="Dashboard" />
+          Zuzu AI Dashboard
+        </h1>
 
-      {/* Call to Action */}
-      <div className="mb-16 flex flex-col items-center">
-        <span className="text-2xl font-black text-yellow-300 drop-shadow animate-bounce">🚀 Supercharge your brand with Zuzu!</span>
-        <Link href="/app/social-bot" className="mt-6 px-10 py-4 rounded-2xl bg-gradient-to-br from-yellow-400 via-fuchsia-500 to-violet-600 text-white font-extrabold text-2xl shadow-lg border-2 border-yellow-300 animate-pop hover:scale-105 transition">
-          Go to Social Hub
-        </Link>
-      </div>
+        {/* Animated Quick Stats */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 mb-16">
+          <div className="rounded-3xl p-8 bg-gradient-to-br from-yellow-400 via-fuchsia-500 to-violet-600 shadow-xl border-4 border-fuchsia-300 animate-pop flex flex-col items-center focus-visible:ring-4 focus-visible:ring-yellow-300" tabIndex={0} aria-label="12 Socials Linked">
+            <span className="text-5xl font-black text-white drop-shadow animate-bounce">12</span>
+            <span className="text-lg font-extrabold text-fuchsia-100 mt-2 uppercase tracking-wider">Socials Linked</span>
+          </div>
+          <div className="rounded-3xl p-8 bg-gradient-to-br from-fuchsia-400 via-violet-500 to-yellow-400 shadow-xl border-4 border-yellow-300 animate-pop flex flex-col items-center focus-visible:ring-4 focus-visible:ring-yellow-300" tabIndex={0} aria-label="30 Day Content Plan">
+            <span className="text-5xl font-black text-white drop-shadow animate-bounce">30</span>
+            <span className="text-lg font-extrabold text-fuchsia-100 mt-2 uppercase tracking-wider">Day Content Plan</span>
+          </div>
+          <div className="rounded-3xl p-8 bg-gradient-to-br from-violet-500 via-fuchsia-500 to-yellow-400 shadow-xl border-4 border-fuchsia-300 animate-pop flex flex-col items-center focus-visible:ring-4 focus-visible:ring-yellow-300" tabIndex={0} aria-label="99% AI Success Rate">
+            <span className="text-5xl font-black text-white drop-shadow animate-bounce">99%</span>
+            <span className="text-lg font-extrabold text-fuchsia-100 mt-2 uppercase tracking-wider">AI Success Rate</span>
+          </div>
+        </div>
 
-      {/* Dashboard Links */}
-      <div className="grid gap-12 md:grid-cols-2">
-        {dashboardLinks.map(({ href, label, icon: Icon, desc }) => (
-          <Link
-            key={href}
-            href={href}
-            className="rounded-4xl border-4 border-fuchsia-400/40 bg-gradient-to-br from-fuchsia-900 via-violet-900 to-slate-900 p-12 shadow-2xl flex flex-col items-center hover:scale-105 hover:shadow-fuchsia-400/40 transition-transform animate-pop"
-          >
-            <Icon className="h-16 w-16 text-fuchsia-300 drop-shadow-2xl mb-6 animate-bounce" />
+        {/* Call to Action */}
+        <div className="mb-16 flex flex-col items-center">
+          <span className="text-2xl font-black text-yellow-300 drop-shadow animate-bounce" role="status" aria-live="polite">680 Supercharge your brand with Zuzu!</span>
+          <Link href="/app/social-bot" className="mt-6 px-10 py-4 rounded-2xl bg-gradient-to-br from-yellow-400 via-fuchsia-500 to-violet-600 text-white font-extrabold text-2xl shadow-lg border-2 border-yellow-300 animate-pop hover:scale-105 transition focus-visible:ring-4 focus-visible:ring-yellow-300" aria-label="Go to Social Hub">
+            Go to Social Hub
+          </Link>
+        </div>
+
+        {/* Dashboard Links */}
+        <div className="grid gap-12 md:grid-cols-2">
+          {dashboardLinks.map(({ href, label, icon: Icon, desc }) => (
+            <Link
+              key={href}
+              href={href}
+              className="rounded-4xl border-4 border-fuchsia-400/40 bg-gradient-to-br from-fuchsia-900 via-violet-900 to-slate-900 p-12 shadow-2xl flex flex-col items-center hover:scale-105 hover:shadow-fuchsia-400/40 transition-transform animate-pop focus-visible:ring-4 focus-visible:ring-fuchsia-300"
+              tabIndex={0}
+              aria-label={label + ': ' + desc}
+            >
+              <Icon className="h-16 w-16 text-fuchsia-300 drop-shadow-2xl mb-6 animate-bounce" aria-label={label} />
             <div className="text-4xl font-black text-white drop-shadow-2xl mb-3 text-center uppercase tracking-wider animate-pop">
               {label}
             </div>

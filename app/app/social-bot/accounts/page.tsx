@@ -2,6 +2,20 @@
 
 <<<<<<< HEAD
 export default function SocialBotAccountsPage() {
+  // AI tips for social accounts
+  const aiTips = [
+    "Tip: Connect all your socials to unlock full automation!",
+    "Tip: Use Meta OAuth for the fastest Facebook/Instagram setup.",
+    "Tip: Reset the form to quickly add multiple accounts.",
+    "Tip: Credentials are stored securely and never shared.",
+  ];
+  const [tipIndex, setTipIndex] = useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setTipIndex((i) => (i + 1) % aiTips.length);
+    }, 8000);
+    return () => clearInterval(interval);
+  }, []);
   return (
     <main className="min-h-screen bg-gray-50 p-8">
       <div className="max-w-2xl mx-auto">
@@ -179,27 +193,29 @@ export default function SocialBotAccountsPage() {
     [loadAccounts]
   );
 
-  return (
-    <div className="relative mx-auto max-w-7xl space-y-16 px-6 py-20 animate-gradient-bg">
-      <div className="absolute inset-0 -z-10 bg-gradient-to-br from-fuchsia-700 via-violet-700 to-slate-900 animate-gradient-move opacity-80 blur-2xl" />
-      <section className="rounded-4xl border-4 border-fuchsia-400/40 bg-gradient-to-br from-fuchsia-900 via-violet-900 to-slate-900 p-14 shadow-2xl animate-pop">
-        <p className="text-3xl font-black uppercase tracking-[0.18em] text-fuchsia-300 text-center animate-bounce">Connected Accounts</p>
-        <h1 className="mt-8 text-7xl font-black tracking-tight text-white text-center drop-shadow-2xl uppercase animate-pop">Link Your Social Platforms</h1>
-        <p className="mt-8 max-w-3xl mx-auto text-3xl leading-10 text-fuchsia-100 font-extrabold text-center animate-bounce-slow">
-          Connect Instagram, Facebook, X/Twitter, LinkedIn, TikTok, Threads, YouTube, Pinterest, and Reddit accounts. For live publishing, add the official app credentials or tokens from each platform.
-        </p>
-      </section>
 
-      <section className="mb-16 rounded-4xl border-4 border-fuchsia-400/40 bg-slate-900/80 p-14 shadow-2xl animate-pop">
-        <h2 className="text-4xl font-black text-fuchsia-200 mb-6 uppercase tracking-tight">Connection Tips</h2>
-        <ul className="list-disc list-inside text-2xl text-fuchsia-100 font-extrabold space-y-3 text-left mx-auto max-w-2xl animate-bounce-slow">
-          <li>Use Meta OAuth for Facebook and Instagram for the fastest setup.</li>
-          <li>Tokens and OAuth credentials are required for live publishing.</li>
-          <li>Connect all platforms to unlock full automation.</li>
-          <li>Reset the form to quickly add multiple accounts.</li>
-          <li>All credentials are stored securely.</li>
-        </ul>
-      </section>
+  return (
+    <>
+      {/* Skip to content for accessibility */}
+      <a href="#main-content" className="sr-only focus:not-sr-only absolute left-4 top-4 z-50 bg-yellow-400 text-black font-bold px-6 py-3 rounded-xl shadow-lg focus-visible:ring-4 focus-visible:ring-fuchsia-400">Skip to main content</a>
+      {/* AI Suggest floating button */}
+      <button
+        aria-label="Get AI suggestions for this page"
+        title="Get AI suggestions for this page"
+        className="fixed bottom-8 left-8 z-40 rounded-full bg-gradient-to-br from-yellow-400 via-fuchsia-500 to-violet-600 p-5 shadow-2xl border-4 border-fuchsia-300 animate-pop focus-visible:ring-4 focus-visible:ring-yellow-300"
+        onClick={() => alert('AI Suggestion: ' + aiTips[tipIndex])}
+      >
+        <PlugZap className="h-8 w-8 text-white drop-shadow" />
+      </button>
+      {/* Main content */}
+      <div id="main-content" className="relative mx-auto max-w-7xl space-y-16 px-6 py-20 animate-gradient-bg">
+        <div className="absolute inset-0 -z-10 bg-gradient-to-br from-fuchsia-700 via-violet-700 to-slate-900 animate-gradient-move opacity-80 blur-2xl" />
+        {/* AI Tip Banner */}
+        <div role="status" aria-live="polite" className="mb-8 flex items-center justify-center gap-4 rounded-2xl bg-gradient-to-r from-yellow-400 via-fuchsia-500 to-violet-600 px-8 py-4 shadow-xl border-4 border-fuchsia-300 animate-pop">
+          <PlugZap className="h-8 w-8 text-white animate-bounce" />
+          <span className="text-2xl font-extrabold text-white">{aiTips[tipIndex]}</span>
+        </div>
+        {/* ...existing code... */
 
       <section className="grid gap-10 md:grid-cols-3">
         <div className="rounded-4xl border-4 border-fuchsia-400/40 bg-slate-900/60 p-10 shadow-2xl animate-pop">
