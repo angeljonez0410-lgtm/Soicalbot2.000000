@@ -44,28 +44,34 @@ export async function POST(req: NextRequest) {
   if (!(await getAuthUser(req))) return unauthorized();
   try {
     const openai = getOpenAI();
-    const { message, history } = await req.json();
+    const { message, history, mode } = await req.json();
     if (!message || typeof message !== "string") {
       return NextResponse.json({ error: "Message required" }, { status: 400 });
     }
-
-<<<<<<< HEAD
-=======
     if (!process.env.OPENAI_API_KEY) {
       return NextResponse.json({ error: "OpenAI API key not configured" }, { status: 500 });
     }
-
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)
     const chatHistory = (history || []).map((m: { role: string; content: string }) => ({
       role: m.role as "user" | "assistant",
       content: m.content,
     }));
 
+    // Choose system prompt based on mode
+    let systemPrompt = SYSTEM_PROMPT;
+    if (mode === 'code') {
+      systemPrompt = `You are Zuzu, an expert AI coding assistant. Generate clean, production-ready code for the user's request. Only output code, no explanations unless asked.`;
+    } else if (mode === 'explain') {
+      systemPrompt = `You are Zuzu, an expert AI code explainer. Explain the provided code or error in clear, simple language for a developer. Use bullet points and examples if helpful.`;
+    } else if (mode === 'commit') {
+      systemPrompt = `You are Zuzu, an AI DevOps assistant. Summarize the code changes and generate a concise, descriptive commit message. If asked, provide the git command to commit and push.`;
+    } else if (mode === 'build') {
+      systemPrompt = `You are Zuzu, an AI build assistant. Given a build or test command, explain what it does and what the expected output should be. If asked, provide troubleshooting tips for common errors.`;
+    }
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
-        { role: "system", content: SYSTEM_PROMPT },
+        { role: "system", content: systemPrompt },
         ...chatHistory,
         { role: "user", content: message },
       ],
