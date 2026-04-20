@@ -233,4 +233,5 @@ export default function AIAssistant({ defaultOpen = false }: { defaultOpen?: boo
         </div>
       </div>
     </motion.div>
+  );
 }
