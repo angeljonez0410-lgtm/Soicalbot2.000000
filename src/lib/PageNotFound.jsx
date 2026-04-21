@@ -1,43 +1,23 @@
-import { useLocation } from 'react-router-dom';
-import { base44 } from '@/api/base44Client';
-import { useQuery } from '@tanstack/react-query';
+import React from 'react';
 
-
-export default function PageNotFound({}) {
-    const location = useLocation();
-    const pageName = location.pathname.substring(1);
-
-    const { data: authData, isFetched } = useQuery({
-        queryKey: ['user'],
-        queryFn: async () => {
-            try {
-                const user = await base44.auth.me();
-                return { user, isAuthenticated: true };
-            } catch (error) {
-                return { user: null, isAuthenticated: false };
-            }
-        }
-    });
-    
+export default function PageNotFound() {
     return (
-        <div className="min-h-screen flex items-center justify-center p-6 bg-slate-50">
-            <div className="max-w-md w-full">
-                <div className="text-center space-y-6">
-                    {/* 404 Error Code */}
-                    <div className="space-y-2">
-                        <h1 className="text-7xl font-light text-slate-300">404</h1>
-                        <div className="h-0.5 w-16 bg-slate-200 mx-auto"></div>
-                    </div>
-                    
-                    {/* Main Message */}
-                    <div className="space-y-3">
-                        <h2 className="text-2xl font-medium text-slate-800">
-                            Page Not Found
-                        </h2>
-                        <p className="text-slate-600 leading-relaxed">
-                            The page <span className="font-medium text-slate-700">"{pageName}"</span> could not be found in this application.
-                        </p>
-                    </div>
+        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: 24, background: '#f8fafc' }}>
+            <div style={{ maxWidth: 400, width: '100%' }}>
+                <div style={{ textAlign: 'center', marginBottom: 32 }}>
+                    <h1 style={{ fontSize: 72, fontWeight: 300, color: '#cbd5e1' }}>404</h1>
+                    <div style={{ height: 2, width: 64, background: '#e2e8f0', margin: '0 auto' }}></div>
+                </div>
+                <div style={{ textAlign: 'center' }}>
+                    <h2 style={{ fontSize: 28, fontWeight: 500, color: '#1e293b' }}>Page Not Found</h2>
+                    <p style={{ color: '#64748b', marginTop: 12 }}>
+                        The page you are looking for could not be found in this application.
+                    </p>
+                </div>
+            </div>
+        </div>
+    );
+}
                     
                     {/* Admin Note */}
                     {isFetched && authData.isAuthenticated && authData.user?.role === 'admin' && (
