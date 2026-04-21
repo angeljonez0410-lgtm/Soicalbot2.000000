@@ -1,1 +1,0 @@
-(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[423],{8042:function(n,u,t){(window.__NEXT_P=window.__NEXT_P||[]).push(["/SocialMedia",function(){return t(7505)}])},7505:function(n,u,t){"use strict";function i(){return null}t.r(u),t.d(u,{default:function(){return i}})}},function(n){n.O(0,[2888,9774,179],function(){return n(n.s=8042)}),_N_E=n.O()}]);
