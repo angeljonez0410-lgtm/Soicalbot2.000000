@@ -5,8 +5,8 @@
   "devFiles": [],
   "ampDevFiles": [],
   "lowPriorityFiles": [
-    "static/kj3OAPArCXyoy2YC32Vjl/_buildManifest.js",
-    "static/kj3OAPArCXyoy2YC32Vjl/_ssgManifest.js"
+    "static/swA8-zeQZ2Q0276G4DoIU/_buildManifest.js",
+    "static/swA8-zeQZ2Q0276G4DoIU/_ssgManifest.js"
   ],
   "rootMainFiles": [
     "static/chunks/webpack-7e2b3a3422a9fc5b.js",
@@ -38,6 +38,24 @@
       "static/chunks/framework-209df7312795fee6.js",
       "static/chunks/main-b4977049a1d5007c.js",
       "static/chunks/pages/Generate-4401bb550b765af7.js"
+    ],
+    "/Projects": [
+      "static/chunks/webpack-7e2b3a3422a9fc5b.js",
+      "static/chunks/framework-209df7312795fee6.js",
+      "static/chunks/main-b4977049a1d5007c.js",
+      "static/chunks/pages/Projects-da4f5ac959c179c5.js"
+    ],
+    "/Settings": [
+      "static/chunks/webpack-7e2b3a3422a9fc5b.js",
+      "static/chunks/framework-209df7312795fee6.js",
+      "static/chunks/main-b4977049a1d5007c.js",
+      "static/chunks/pages/Settings-f4e2b7b25e83c1b0.js"
+    ],
+    "/SocialMedia": [
+      "static/chunks/webpack-7e2b3a3422a9fc5b.js",
+      "static/chunks/framework-209df7312795fee6.js",
+      "static/chunks/main-b4977049a1d5007c.js",
+      "static/chunks/pages/SocialMedia-9b8f642e13c5f3d3.js"
     ],
     "/_app": [
       "static/chunks/webpack-7e2b3a3422a9fc5b.js",
