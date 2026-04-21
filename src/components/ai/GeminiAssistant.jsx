@@ -1,8 +1,8 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { base44 } from '@/api/base44Client';
+// import { Button } from '@/components/ui/button';
+// import { Input } from '@/components/ui/input';
+// import { ScrollArea } from '@/components/ui/scroll-area';
+// import { base44 } from '@/api/base44Client';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Send, Sparkles, Loader2, Copy, CheckCircle2, X } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
@@ -34,6 +34,8 @@ export default function GeminiAssistant({ mode, onClose, onApply }) {
     return welcomes[m] || "How can I help you create your AI avatar?";
   }
 
+  // The following code is commented out due to missing dependencies:
+  /*
   const handleSend = async () => {
     if (!input.trim() || loading) return;
 
@@ -58,6 +60,8 @@ export default function GeminiAssistant({ mode, onClose, onApply }) {
       }]);
     } catch (error) {
       const fallbackText = mode === 'resumevault_character' || mode === 'character_description'
+  }
+  */
         ? `A photorealistic ResumeVaultGod AI spokesperson with a calm, confident presence, natural skin texture, clear eye contact, and a polished modern wardrobe. The character looks like a trustworthy career coach who can guide job seekers through ATS resumes, cover letters, interview preparation, salary negotiation, and application tracking. Their expression is focused but warm, with professional posture and a clean workspace background that feels credible on LinkedIn, TikTok, Instagram, and YouTube Shorts.\n\nVisual direction: realistic studio lighting, modern laptop setup, subtle ResumeVaultGod brand energy, cinematic depth of field, sharp focus, natural hands, no extra fingers, no text artifacts, clean professional composition.`
         : null;
       setMessages(prev => [...prev, {
