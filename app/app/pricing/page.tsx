@@ -40,8 +40,8 @@ export default function PricingPage() {
 
 function PricingContent() {
   const searchParams = useSearchParams();
-  const success = searchParams.get("success");
-  const canceled = searchParams.get("canceled");
+  const success = searchParams?.get("success");
+  const canceled = searchParams?.get("canceled");
   const [loadingPlan, setLoadingPlan] = useState<string | null>(null);
 
   const handleCheckout = async (stripePrice: string | null) => {

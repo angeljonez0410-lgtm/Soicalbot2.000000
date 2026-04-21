@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 // Confetti burst effect
 function fireConfetti() {
+  // @ts-ignore
   if (typeof window !== "undefined" && window.confetti) {
     window.confetti({
       particleCount: 100,
@@ -16,8 +17,21 @@ import { Sparkles, UserPlus, RefreshCw, Image, Video } from "lucide-react";
 
 const defaultPrompt = "Create a unique AI character for social content.";
 
+declare global {
+  interface Window {
+    confetti?: any;
+  }
+}
+
+if (typeof window !== "undefined" && window.confetti) {
+  window.confetti({
+    particleCount: 100,
+    spread: 120,
+  });
+}
+
 export default function CharactersPage() {
-  const [characters, setCharacters] = useState([]);
+  const [characters, setCharacters] = useState<Array<{ url: string; prompt: string }>>([]);
   const [loading, setLoading] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [error, setError] = useState("");
@@ -52,7 +66,11 @@ export default function CharactersPage() {
       setPrompt("");
       fireConfetti();
     } catch (e) {
-      setError(e.message || "Failed to generate character.");
+      if (e instanceof Error) {
+        setError(e.message);
+      } else {
+        setError("Failed to generate character.");
+      }
     } finally {
       setLoading(false);
     }

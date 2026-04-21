@@ -2,8 +2,6 @@ import { createClient } from "@supabase/supabase-js";
 
 let client: ReturnType<typeof createClient> | null = null;
 
-<<<<<<< HEAD
-=======
 const SESSION_STORAGE_KEY = "sb_session";
 const ACCESS_TOKEN_KEY = "sb_access_token";
 const REFRESH_TOKEN_KEY = "sb_refresh_token";
@@ -68,7 +66,6 @@ function createSessionStorage() {
   };
 }
 
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)
 export function getSupabaseBrowser() {
   if (client) return client;
 
@@ -79,11 +76,6 @@ export function getSupabaseBrowser() {
     throw new Error("Missing Supabase browser environment variables");
   }
 
-<<<<<<< HEAD
-  client = createClient(url, anonKey);
-  return client;
-}
-=======
   client = createClient(url, anonKey, {
     auth: {
       storageKey: SESSION_STORAGE_KEY,
@@ -96,4 +88,3 @@ export function getSupabaseBrowser() {
   });
   return client;
 }
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)

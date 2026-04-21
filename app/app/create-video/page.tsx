@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect } from "react";
 import { Video } from "lucide-react";
 import GenerationStudio from "@/components/GenerationStudio";

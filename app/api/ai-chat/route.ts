@@ -8,7 +8,6 @@ function getOpenAI() {
     apiKey: process.env.OPENAI_API_KEY,
   });
 }
-// ...rest of the file unchanged...
 
 // Handle AI actions like creating posts, updating settings
 async function handleAction(action: Record<string, string>) {
@@ -73,27 +72,15 @@ async function handleAction(action: Record<string, string>) {
 }
 
 export async function POST(req: NextRequest) {
-<<<<<<< HEAD
   if (!(await getAuthUser(req))) return unauthorized();
   try {
     const openai = getOpenAI();
-=======
-  try {
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)
     const { message, history, userName } = await req.json();
 
     if (!message || typeof message !== "string") {
       return NextResponse.json({ error: "Message is required" }, { status: 400 });
     }
 
-<<<<<<< HEAD
-=======
-    if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json({ error: "OpenAI API key not configured" }, { status: 500 });
-    }
-
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)
     const supabase = getSupabaseAdmin();
     const { data: settings } = await supabase
       .from("social_settings")

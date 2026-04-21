@@ -1,11 +1,6 @@
 "use client";
 
-<<<<<<< HEAD
-import { useState } from "react";
-import { authFetch } from "../lib/auth-fetch";
-
-=======
-import { useMemo, useState } from "react";
+import { useState, useMemo } from "react";
 import { authFetch } from "../lib/auth-fetch";
 
 type StarterItem = {
@@ -48,16 +43,12 @@ const STARTER_PACK: StarterItem[] = [
   { day: 30, platform: "reddit", topic: "30-day wrap-up", caption: "Close the month by reviewing what improved: resume, confidence, clarity, and consistency." },
 ];
 
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)
 export default function CalendarGenerator({
   onGenerated,
 }: {
   onGenerated: () => Promise<void>;
 }) {
   const [loading, setLoading] = useState(false);
-<<<<<<< HEAD
-  const [message, setMessage] = useState("");
-=======
   const [savingStarterPack, setSavingStarterPack] = useState(false);
   const [message, setMessage] = useState("");
   const starterPackPreview = useMemo(() => STARTER_PACK.slice(0, 6), []);
@@ -67,7 +58,6 @@ export default function CalendarGenerator({
     copy.setDate(copy.getDate() + days);
     return copy;
   }
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)
 
   async function handleGenerate() {
     setLoading(true);
@@ -90,26 +80,6 @@ export default function CalendarGenerator({
     await onGenerated();
   }
 
-<<<<<<< HEAD
-  return (
-    <div className="bg-white rounded-2xl shadow p-6">
-      <h2 className="text-xl font-bold text-gray-900">30-Day Content Calendar</h2>
-      <p className="text-sm text-gray-600 mt-2">
-        Generate 30 scheduled AI post ideas using your current settings.
-      </p>
-
-      <button
-        onClick={handleGenerate}
-        className="mt-4 bg-green-600 text-white px-5 py-3 rounded-xl font-semibold hover:bg-green-700"
-      >
-        {loading ? "Generating..." : "Generate 30-Day Calendar"}
-      </button>
-
-      {message ? <p className="mt-4 text-sm text-gray-600">{message}</p> : null}
-    </div>
-  );
-}
-=======
   async function saveStarterPack() {
     setSavingStarterPack(true);
     setMessage("");
@@ -208,4 +178,3 @@ export default function CalendarGenerator({
     </div>
   );
 }
->>>>>>> 69ab86b (Save all local changes and resolve conflicts)

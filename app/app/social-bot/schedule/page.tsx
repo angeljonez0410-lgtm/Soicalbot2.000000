@@ -17,7 +17,14 @@ import { Calendar, Clock, PlusCircle, Save, Loader2 } from "lucide-react";
 import { authFetch } from "@/lib/auth-fetch";
 
 export default function SchedulePage() {
-  const [posts, setPosts] = useState([]);
+  const [posts, setPosts] = useState<Array<{
+    id: string;
+    platform: string;
+    topic: string;
+    caption: string;
+    scheduled_time: string;
+    status: string;
+  }>>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
@@ -56,7 +63,7 @@ export default function SchedulePage() {
     fetchPosts();
   }, []);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPost({ ...newPost, [e.target.name]: e.target.value });
   };
 
